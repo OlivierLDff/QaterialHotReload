@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-include(cmake/Dependencies.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/Dependencies.cmake)
 
 find_package(Qt5 REQUIRED COMPONENTS
   Core
@@ -55,6 +55,6 @@ find_package(Qt5 QUIET COMPONENTS
   Quick3DUtils
 )
 
-include(cmake/FetchQtGeneratorCmake.cmake)
-include(cmake/FetchSortFilterProxyModel.cmake)
-include(cmake/FetchQaterial.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/FetchQtGeneratorCMake.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/FetchSortFilterProxyModel.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/FetchQaterial.cmake)

@@ -24,19 +24,18 @@ include(cmake/Version.cmake)
 
 set(QATERIALHOTRELOAD_PROJECT "QaterialHotReload" CACHE STRING "Project Name")
 set(QATERIALHOTRELOAD_FOLDER_PREFIX "Qaterial/HotReload" CACHE STRING "Prefix folder for all Qaterial generated targets in generated project (only decorative)")
-set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build as a shared library")
+set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
 # Might be useful to disable if you only want the HotReload Gui to integrate into your project
-set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ON CACHE BOOL "Build Qaterial HotReload executable")
+set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ON CACHE BOOL "Build Qaterial HotReload application")
 set(QATERIALHOTRELOAD_IGNORE_ENV OFF CACHE BOOL "Ignore qt environment variables")
 set(QATERIALHOTRELOAD_ENABLE_PCH ON CACHE BOOL
- "Enable precompile headers support for 'Qaterial'. \"
+ "Enable precompile headers support for 'QaterialHotReload'. \"
  Only work if CMake support 'target_precompile_headers'. \"
  This can speed up compilation time.")
 
-message(STATUS "------ ${QATERIALHOTRELOAD_TARGET} Configuration ------")
+message(STATUS "------ ${QATERIALHOTRELOAD_PROJECT} Configuration ------")
 
 message(STATUS "QATERIALHOTRELOAD_PROJECT                : ${QATERIALHOTRELOAD_PROJECT}")
-message(STATUS "QATERIALHOTRELOAD_TARGET                 : ${QATERIALHOTRELOAD_TARGET}")
 message(STATUS "QATERIALHOTRELOAD_VERSION                : ${QATERIALHOTRELOAD_VERSION}")
 message(STATUS "QATERIALHOTRELOAD_VERSION_TAG_HEX        : ${QATERIALHOTRELOAD_VERSION_TAG_HEX}")
 message(STATUS "QATERIALHOTRELOAD_BUILD_SHARED           : ${QATERIALHOTRELOAD_BUILD_SHARED}")
@@ -44,4 +43,4 @@ message(STATUS "QATERIALHOTRELOAD_FOLDER_PREFIX          : ${QATERIALHOTRELOAD_F
 
 message(STATUS "QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP   : ${QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP}")
 
-message(STATUS "------ ${QATERIALHOTRELOAD_TARGET} End Configuration ------")
+message(STATUS "------ ${QATERIALHOTRELOAD_PROJECT} End Configuration ------")

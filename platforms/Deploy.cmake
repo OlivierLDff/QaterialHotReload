@@ -11,8 +11,8 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Windows")
     include(${PROJECT_SOURCE_DIR}/cmake/FetchQtWindowsCMake.cmake)
 
     add_qt_windows_exe(QaterialHotReloadApp
-      NAME "QaterialHotReload"
-      PUBLISHER "OlivierLdff"
+      NAME "Qaterial HotReload"
+      PUBLISHER "Qaterial"
       PRODUCT_URL "https://github.com/OlivierLdff/QaterialHotReload"
       PACKAGE "com.qaterial.hotreload"
       ICON ${QATERIALHOTRELOAD_PLATFORMS_DIR}/windows/icon.ico
@@ -65,7 +65,7 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Darwin")
 
     # Deeplabel isn't compatible with mac app store due to disable sandbox mode.
     add_qt_mac_app(QaterialHotReloadApp
-      NAME "QaterialHotReload"
+      NAME "Qaterial HotReload"
       BUNDLE_IDENTIFIER "com.qaterial.hotreload"
       LONG_VERSION ${QATERIALHOTRELOAD_VERSION}.${QATERIALHOTRELOAD_VERSION_TAG}
       COPYRIGHT "Copyright OlivierLdff 2020"

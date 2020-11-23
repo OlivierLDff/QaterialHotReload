@@ -84,7 +84,7 @@ int main(int argc, char* argv[])
     const QString executable = argv[0];
 #    if defined(Q_OS_WINDOWS)
     const auto executablePath = executable.mid(0, executable.lastIndexOf("\\"));
-    QCoreApplication::setLibraryPaths({ executablePath });
+    QCoreApplication::setLibraryPaths({executablePath});
 #    endif
 #endif
     installLoggers();
@@ -103,7 +103,7 @@ int main(int argc, char* argv[])
     // ──── LOAD AND REGISTER QML ────
 
 #if defined(QATERIALHOTRELOAD_IGNORE_ENV)
-    engine.setImportPathList({ QLibraryInfo::location(QLibraryInfo::Qml2ImportsPath), "qrc:/", "qrc:/qt-project.org/imports" });
+    engine.setImportPathList({QLibraryInfo::location(QLibraryInfo::Qml2ImportsPath), "qrc:/", "qrc:/qt-project.org/imports"});
 #else
     engine.addImportPath("qrc:/");
 #endif

@@ -35,7 +35,7 @@ jobs:
     -
       uses: OlivierLDff/download-provisioning-profiles@master
       with:
-        bundle-id: com.qaterial.gallery
+        bundle-id: com.qaterial.hotreload
         profile-type: 'MAC_APP_DIRECT'
         issuer-id: ${{ secrets.MAC_APPSTORE_ISSUER_ID }}
         api-key-id: ${{ secrets.MAC_APPSTORE_KEY_ID }}
@@ -54,7 +54,7 @@ jobs:
         version: ${{ matrix.qt-version }}
         dir: ${{ github.workspace }}/Qt-${{ runner.os }}-${{ matrix.qt-version }}
         cached: ${{ steps.cache-qt-macos.outputs.cache-hit }}
-        modules: 'qtcharts qtdatavis3d qtpurchasing qtvirtualkeyboard qtwebengine qtnetworkauth qtquick3d'
+        modules: 'qtcharts qtdatavis3d qtquick3d'
     -
       name: 🔥 Delete Qt built-in styles
       run: |
@@ -75,7 +75,7 @@ jobs:
           -DQT_MAC_PROVISIONING_PROFILE_SPECIFIER=${{ secrets.MAC_DMG_PROVISIONING_PROFILE_SPECIFIER }} \
           -B ./build/ -S .
     -
-      name: 🔨 Build QaterialHotReloa
+      name: 🔨 Build QaterialHotReload
       run: cmake --build build --target QaterialHotReloadApp --config "${{ matrix.build-type }}"
     -
       name: 🚀 Deploy QaterialHotReload Dmg
