@@ -77,7 +77,6 @@ void installLoggers()
 
 // ──── FUNCTIONS ────
 
-#define QATERIALHOTRELOAD_IGNORE_ENV
 int main(int argc, char* argv[])
 {
 #if defined(QATERIALHOTRELOAD_IGNORE_ENV)
