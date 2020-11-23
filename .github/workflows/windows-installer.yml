@@ -1,0 +1,74 @@
+name: 👷 Windows CI
+
+on:
+  push:
+    branches:
+      - master
+      - ci
+
+  release:
+    types:
+      - created
+
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  BuildWindows:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        qt-version: ['5.15.1']
+        build-type: ['Release']
+    steps:
+      -
+        uses: actions/checkout@v2
+      -
+        name: Cache Qt
+        id: cache-qt-windows
+        uses: actions/cache@v2
+        with:
+          path: ${{ github.workspace }}/Qt-${{ runner.os }}-${{ matrix.qt-version }}
+          key: ${{ runner.os }}-QtCache-${{ matrix.qt-version }}-modules
+      -
+        name: ⬆ Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: ${{ matrix.qt-version }}
+          dir: ${{ github.workspace }}/Qt-${{ runner.os }}-${{ matrix.qt-version }}
+          cached: ${{ steps.cache-qt-windows.outputs.cache-hit }}
+          modules: 'qtcharts qtdatavis3d qtpurchasing qtvirtualkeyboard qtwebengine qtnetworkauth qtquick3d'
+      -
+        name: 🔧 Configure
+        run: |
+          mkdir -p build
+          cmake -DQATERIALHOTRELOAD_IGNORE_ENV=ON -DCMAKE_BUILD_TYPE="${{ matrix.build-type }}" -B build -S .
+        shell: bash
+      -
+        name: 🔨 Build Qaterial
+        run: cmake --build build --target "Qaterial" --config "${{ matrix.build-type }}" -j
+      -
+        name: 🔨 Build QaterialHotReloadApp
+        run: cmake --build build --target "QaterialHotReloadApp" --config "${{ matrix.build-type }}" -j
+      -
+        name: 🔨 Build QaterialHotReload Installer
+        run: cmake --build build --target "QaterialHotReloadAppInstallerX64" --config "${{ matrix.build-type }}" -j
+      -
+        name: 📦 Upload QaterialHotReload Installer
+        uses: actions/upload-artifact@v2
+        with:
+          name: QaterialHotReloadInstallerX64${{ matrix.build-type }}.exe
+          path: build/QaterialHotReloadAppInstallerX64${{ matrix.build-type }}.exe
+      -
+        name: 🚀 Upload Release Asset
+        if: github.event_name == 'release' && startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: build/QaterialHotReloadAppInstallerX64${{ matrix.build-type }}.exe
+          asset_name: QaterialHotReloadInstallerX64${{ matrix.build-type }}.exe
+          asset_content_type: application/vnd.microsoft.portable-executable

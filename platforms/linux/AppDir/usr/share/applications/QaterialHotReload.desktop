@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=QaterialHotReload
+Comment=Qml HotReload software.
+Exec=QaterialHotReload
+Icon=QaterialHotReload
+Categories=Application;
