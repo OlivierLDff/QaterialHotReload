@@ -140,8 +140,6 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
     ${QATERIALHOTRELOAD_APP_SRC_DIR}/Main.cpp
   )
 
-  add_subdirectory(qml/Qaterial/HotReloadApp)
-
   if(QATERIALHOTRELOAD_BUILD_SHARED)
     add_library(${QATERIALHOTRELOAD_APP} SHARED ${QATERIALHOTRELOAD_APP_SRCS})
   else()
@@ -149,7 +147,6 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   endif()
 
   target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE
-    Qaterial::HotReload::AppUi
     Qaterial::HotReload
   )
 
