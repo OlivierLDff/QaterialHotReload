@@ -2,4 +2,4 @@
 
 import Qaterial.HotReload 1.0 as HR
 
-HR.SplashScreenApplication { }
+HR.SplashScreenApplication {}

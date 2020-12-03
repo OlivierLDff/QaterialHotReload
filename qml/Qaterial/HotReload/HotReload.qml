@@ -790,7 +790,7 @@ Qaterial.Page
 
     if(Qaterial.HotReload.importPaths !== root.currentImportPath)
     {
-      if(root.currentImportPath.length)
+      if(root.currentImportPath.length && !Qaterial.HotReload.resetImportPath)
       {
         Qaterial.Logger.info(`Set qml import path to Qaterial.HotReload.importPaths`)
         Qaterial.HotReload.importPaths = root.currentImportPath

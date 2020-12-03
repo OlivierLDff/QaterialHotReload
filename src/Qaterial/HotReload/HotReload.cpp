@@ -33,6 +33,7 @@ static void HotReload_loadResources() { Q_INIT_RESOURCE(QaterialHotReload); }
 namespace qaterial {
 
 const std::shared_ptr<HotReloadSink> HotReload::_sink = std::make_shared<HotReloadSink>();
+bool HotReload::_resetImportPath = false;
 
 void HotReloadSink::sink_it_(const spdlog::details::log_msg& msg)
 {
@@ -68,12 +69,14 @@ void HotReload::registerSingleton()
         [](QQmlEngine* engine, QJSEngine* scriptEngine) -> QObject*
         {
             Q_UNUSED(scriptEngine);
-            const auto hotReload = new qaterial::HotReload(engine, engine);
-            _sink->_hotReload = hotReload;
-            hotReload->_defaultImportPaths = engine->importPathList();
-            return hotReload;
+            auto* instance = new qaterial::HotReload(engine, engine);
+            _sink->_hotReload = instance;
+            instance->_defaultImportPaths = engine->importPathList();
+            return instance;
         });
 }
+
+void HotReload::resetImportPath() { _resetImportPath = true; }
 
 void HotReload::watchFile(const QString& path) { _watcher.addPath(path); }
 
