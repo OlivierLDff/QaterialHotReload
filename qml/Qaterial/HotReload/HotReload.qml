@@ -566,10 +566,9 @@ Qaterial.Page
           id: treeView
           anchors.fill: parent
 
-          header: Qaterial.Label
+          header: Qaterial.LabelButton
           {
             text: treeView.model.fileName
-            textType: Qaterial.Style.TextType.Button
             padding: 8
             elide: Text.ElideRight
             width: treeView.width

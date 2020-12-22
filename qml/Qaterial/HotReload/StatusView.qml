@@ -47,12 +47,13 @@ Rectangle
       padding: Qaterial.Style.card.horizontalPadding
       selectionColor: Qaterial.Style.accentColor
 
-      color: Qaterial.Style.textTypeToColor(Qaterial.Style.TextType.Body1)
-      font.family: Qaterial.Style.textTypeToFontFamily(Qaterial.Style.TextType.Body1)
-      font.styleName: Qaterial.Style.textTypeToStyleName(Qaterial.Style.TextType.Body1)
-      font.capitalization: Qaterial.Style.fontCapitalization(Qaterial.Style.TextType.Body1)
-      font.letterSpacing: Qaterial.Style.textTypeToLetterSpacing(Qaterial.Style.TextType.Body1)
-      font.pixelSize: Qaterial.Style.textTypeToPixelSize(Qaterial.Style.TextType.Body1)
+      //color: Qaterial.Style.textTypeToColor(Qaterial.Style.TextType.Body1)
+      font: Qaterial.Style.textTheme.body2
+      //font.family: Qaterial.Style.textTypeToFontFamily(Qaterial.Style.TextType.Body1)
+      //font.styleName: Qaterial.Style.textTypeToStyleName(Qaterial.Style.TextType.Body1)
+      //font.capitalization: Qaterial.Style.fontCapitalization(Qaterial.Style.TextType.Body1)
+      //font.letterSpacing: Qaterial.Style.textTypeToLetterSpacing(Qaterial.Style.TextType.Body1)
+      //font.pixelSize: Qaterial.Style.textTypeToPixelSize(Qaterial.Style.TextType.Body1)
 
       onTextChanged: function()
       {
@@ -90,14 +91,13 @@ Rectangle
       verticalAlignment: Text.AlignVCenter
     } // Qaterial.Label
 
-    Qaterial.Label
+    Qaterial.LabelCaption
     {
       id: _version
       anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
       anchors.rightMargin: Qaterial.Style.card.horizontalPadding
       text: Qaterial.Version.readable
-      textType: Qaterial.Style.TextType.Caption
     }
   }
 }

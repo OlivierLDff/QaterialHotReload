@@ -7,58 +7,194 @@ Qaterial.Menu
 {
   id: root
 
-  width: 250
+  width: headline1.implicitWidth
 
-  Repeater
+  function copyToClipboard(labelName)
   {
-    model: ListModel {}
+    const textToCopy = `Qaterial.Label${labelName}`
+    Qaterial.Clipboard.text = textToCopy
+    Qaterial.SnackbarManager.show(`Text Type Copied! \n'${textToCopy}'`)
+    root.close()
+  }
 
-    delegate: Qaterial.ItemDelegate
+  Qaterial.ItemDelegate
+  {
+    id: headline1
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHeadline1
     {
-      height: Qaterial.Style.textTypeToPixelSize(model.textType) + 8
-      contentItem: Qaterial.Label
-      {
-        text: model.text
-        textType: model.textType
-        verticalAlignment: Text.AlignVCenter
-
-      }
-
-      Qaterial.ToolTip
-      {
-        visible: parent.hovered
-        text: `TextType.${model.text}`
-        delay: 300
-      }
-
-      onClicked: function()
-      {
-        const textToCopy = `Qaterial.Style.TextType.${model.text}`
-        Qaterial.Clipboard.text = textToCopy
-        Qaterial.SnackbarManager.show(`Text Type Copied! \n'${textToCopy}'`)
-        root.close()
-      }
+      text: "Headline1"
+      verticalAlignment: Text.AlignVCenter
     }
 
-    Component.onCompleted: function()
-    {
+    onClicked: () => copyToClipboard("Headline1")
+  }
 
-      model.append({ textType: Qaterial.Style.TextType.Display3, text: "Display3" })
-      model.append({ textType: Qaterial.Style.TextType.Display2, text: "Display2" })
-      model.append({ textType: Qaterial.Style.TextType.Display1, text: "Display1" })
-      model.append({ textType: Qaterial.Style.TextType.Heading, text: "Heading" })
-      model.append({ textType: Qaterial.Style.TextType.Title, text: "Title" })
-      model.append({ textType: Qaterial.Style.TextType.Subheading, text: "Subheading" })
-      model.append({ textType: Qaterial.Style.TextType.ListText, text: "ListText" })
-      model.append({ textType: Qaterial.Style.TextType.ListSecText, text: "ListSecText" })
-      model.append({ textType: Qaterial.Style.TextType.Overline, text: "Overline" })
-      model.append({ textType: Qaterial.Style.TextType.Body2, text: "Body2" })
-      model.append({ textType: Qaterial.Style.TextType.Body1, text: "Body1" })
-      model.append({ textType: Qaterial.Style.TextType.Caption, text: "Caption" })
-      model.append({ textType: Qaterial.Style.TextType.Hint, text: "Hint" })
-      model.append({ textType: Qaterial.Style.TextType.Button, text: "Button" })
-      model.append({ textType: Qaterial.Style.TextType.Menu, text: "Menu" })
-      model.append({ textType: Qaterial.Style.TextType.MenuHint, text: "MenuHint" })
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHeadline2
+    {
+      text: "Headline2"
+      verticalAlignment: Text.AlignVCenter
     }
+
+    onClicked: () => copyToClipboard("Headline2")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHeadline3
+    {
+      text: "Headline3"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Headline3")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHeadline4
+    {
+      text: "Headline4"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Headline4")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHeadline5
+    {
+      text: "Headline5"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Headline5")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHeadline6
+    {
+      text: "Headline6"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Headline6")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelSubtitle1
+    {
+      text: "Subtitle1"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Subtitle1")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelSubtitle2
+    {
+      text: "Subtitle2"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Subtitle2")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelBody1
+    {
+      text: "Body1"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Body1")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelBody2
+    {
+      text: "Body2"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Body2")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelButton
+    {
+      text: "Button"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Button")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelOverline
+    {
+      text: "Overline"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Overline")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelCaption
+    {
+      text: "Caption"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Caption")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHint1
+    {
+      text: "Hint1"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Hint1")
+  }
+
+  Qaterial.ItemDelegate
+  {
+    implicitHeight: implicitContentHeight + topPadding + bottomPadding
+    contentItem: Qaterial.LabelHint2
+    {
+      text: "Hint2"
+      verticalAlignment: Text.AlignVCenter
+    }
+
+    onClicked: () => copyToClipboard("Hint2")
   }
 }

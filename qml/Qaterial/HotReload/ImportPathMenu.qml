@@ -32,12 +32,11 @@ Qaterial.Menu
       implicitHeight: title.implicitHeight
       z: 1
 
-      Qaterial.Label
+      Qaterial.LabelHeadline6
       {
         id: title
         text: "Qml Import Paths"
         width: parent.width
-        textType: Qaterial.Style.TextType.Title
         elide: Text.ElideRight
         leftPadding: 16
         bottomPadding: 8
