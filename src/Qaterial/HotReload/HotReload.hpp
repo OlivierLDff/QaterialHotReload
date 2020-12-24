@@ -50,6 +50,7 @@ class HotReload : public QObject
 
 public:
     HotReload(QQmlEngine* engine, QObject* parent);
+    ~HotReload();
 
 private:
     QQmlEngine* _engine;

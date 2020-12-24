@@ -47,13 +47,20 @@ void HotReloadSink::sink_it_(const spdlog::details::log_msg& msg)
     spdlog::memory_buf_t formatted;
     base_sink<std::mutex>::formatter_->format(msg, formatted);
     const auto string = fmt::to_string(formatted);
-    Q_EMIT _hotReload->newLog(QString::fromStdString(string));
+    if(_hotReload)
+        Q_EMIT _hotReload->newLog(QString::fromStdString(string));
 }
 
 HotReload::HotReload(QQmlEngine* engine, QObject* parent) : QObject(parent), _engine(engine)
 {
     connect(&_watcher, &QFileSystemWatcher::fileChanged, this, &HotReload::watchedFileChanged);
     HotReload_loadResources();
+}
+
+HotReload::~HotReload()
+{
+    if(_sink->_hotReload == this)
+        _sink->_hotReload = nullptr;
 }
 
 void HotReload::clearCache() const { _engine->clearComponentCache(); }
