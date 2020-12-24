@@ -206,7 +206,7 @@ Qaterial.Page
           onResetPathEntries: function()
           {
             Qaterial.HotReload.importPaths = undefined
-            Qaterial.Logger.info(`Reset Path Entries to ${Qaterial.HotReload.importPaths}`)
+            console.log(`Reset Path Entries to ${Qaterial.HotReload.importPaths}`)
             root.currentImportPath = Qaterial.HotReload.importPaths.toString()
               .split(',')
             root.reload()
@@ -227,7 +227,7 @@ Qaterial.Page
               {
                 if(index <= -1)
                   index = Qaterial.HotReload.importPaths.length
-                Qaterial.Logger.info(`Append Path ${text} at ${index}`)
+                console.log(`Append Path ${text} at ${index}`)
                 let tempPaths = Qaterial.HotReload.importPaths.toString()
                   .split(',')
                 tempPaths.splice(index, 0, text)
@@ -250,7 +250,7 @@ Qaterial.Page
               standardButtons: Dialog.Ok | Dialog.Cancel,
               onAccepted: function(text, acceptable)
               {
-                Qaterial.Logger.info(`Edit Path ${index} to ${text}`)
+                console.log(`Edit Path ${index} to ${text}`)
                 let tempPaths = Qaterial.HotReload.importPaths.toString()
                   .split(',')
                 tempPaths.splice(index, 1, text)
@@ -273,7 +273,7 @@ Qaterial.Page
                 standardButtons: Dialog.Ok | Dialog.Cancel,
                 onAccepted: function()
                 {
-                  Qaterial.Logger.info(`Remove Path ${Qaterial.HotReload.importPaths[index]}`)
+                  console.log(`Remove Path ${Qaterial.HotReload.importPaths[index]}`)
                   let tempPaths = Qaterial.HotReload.importPaths.toString()
                     .split(',')
                   tempPaths.splice(index, 1)
@@ -645,7 +645,7 @@ Qaterial.Page
 
         function createLater(url)
         {
-          Qaterial.Logger.info(`Load from ${url}`)
+          console.log(`Load from ${url}`)
 
           // Destroy previous item
           if(loadedObject)
@@ -654,9 +654,17 @@ Qaterial.Page
             loadedObject = null
           }
 
-          Qaterial.HotReload.clearCache()
-          let component = Qt.createComponent(url)
+          console.time("hotReload");
 
+          console.time("clearCache");
+          Qaterial.HotReload.clearCache()
+          console.timeEnd("clearCache");
+
+          console.time("createComponent");
+          let component = Qt.createComponent(url)
+          console.timeEnd("createComponent");
+
+          console.time("incubateObject");
           if(component.status === Component.Ready)
           {
             //loadedObject = component.createObject(loader)
@@ -692,10 +700,13 @@ Qaterial.Page
           else
           {
             root.errorString = component.errorString()
-            Qaterial.Logger.error(`Fail to load with error ${root.errorString}`)
+            console.exception(`Fail to load with error ${root.errorString}`)
             Qaterial.DialogManager.close()
             root.newObjectLoaded()
           }
+
+          console.timeEnd("incubateObject");
+          console.timeEnd("hotReload");
         }
 
         Column
@@ -783,7 +794,7 @@ Qaterial.Page
 
   Component.onCompleted: function()
   {
-    Qaterial.Logger.info(`Load configuration from ${settings.fileName}`)
+    console.log(`Load configuration from ${settings.fileName}`)
     folderSplitView.restoreState(settings.folderSplitView)
     Qaterial.Style.theme = root.theme
 
@@ -791,7 +802,7 @@ Qaterial.Page
     {
       if(root.currentImportPath.length && !Qaterial.HotReload.resetImportPath)
       {
-        Qaterial.Logger.info(`Set qml import path to Qaterial.HotReload.importPaths`)
+        console.log(`Set qml import path to Qaterial.HotReload.importPaths`)
         Qaterial.HotReload.importPaths = root.currentImportPath
       }
       else
