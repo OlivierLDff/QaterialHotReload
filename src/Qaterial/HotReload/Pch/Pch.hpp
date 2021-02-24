@@ -29,24 +29,19 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/sink.h>
 
-#include <QOlm/QOlm.hpp>
-#include <Qaterial/Qaterial.hpp>
+#include <QtCore/QObject>
+#include <QtCore/QFile>
+#include <QtCore/QSaveFile>
+#include <QtCore/QObject>
+#include <QtCore/QString>
+#include <QtCore/QFileInfo>
+#include <QtCore/QUrl>
+#include <QtCore/QDir>
+#include <QtGui/QGuiApplication>
+#include <QtGui/QFontDatabase>
 
-#include <QObject>
-#include <QFile>
-#include <QSaveFile>
-#include <QObject>
-#include <QString>
-#include <QFileInfo>
-#include <QUrl>
-#include <QGuiApplication>
-#include <QDir>
-#include <QFontDatabase>
-
-#include <QQmlEngine>
-#include <QQmlFile>
-
-#include <QQuickStyle>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QQmlFile>
 
 #ifdef major
 #    undef major

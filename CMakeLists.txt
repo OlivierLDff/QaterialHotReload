@@ -219,6 +219,7 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   endif()
 
   target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE
+    Qaterial
     Qaterial::HotReload
     SortFilterProxyModel
   )
