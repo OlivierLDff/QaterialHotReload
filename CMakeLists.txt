@@ -24,13 +24,18 @@ cmake_minimum_required(VERSION 3.14.0 FATAL_ERROR)
 
 # ───── PROJECT OPTIONS ─────
 
+set(QATERIALHOTRELOAD_MAIN_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  set(QATERIALHOTRELOAD_MAIN_PROJECT ON)
+endif()
+
 include(cmake/Version.cmake)
 
 set(QATERIALHOTRELOAD_PROJECT "QaterialHotReload" CACHE STRING "Project Name")
 set(QATERIALHOTRELOAD_FOLDER_PREFIX "Qaterial/HotReload" CACHE STRING "Prefix folder for all Qaterial generated targets in generated project (only decorative)")
 set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
 # Might be useful to disable if you only want the HotReload Gui to integrate into your project
-set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ON CACHE BOOL "Build Qaterial HotReload application")
+set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "Build Qaterial HotReload application")
 set(QATERIALHOTRELOAD_IGNORE_ENV OFF CACHE BOOL "Ignore qt environment variables")
 set(QATERIALHOTRELOAD_ENABLE_PCH ON CACHE BOOL
  "Enable precompile headers support for 'QaterialHotReload'. \"
