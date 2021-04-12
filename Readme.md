@@ -52,6 +52,10 @@ Make sure Qt5 can be found by `find_package`.
 - Either pass `-DCMAKE_PREFIX_PATH=/path/to/Qt/5.15.1/<binary>`. `<binary>` can be `msvc2019_64`, `gcc_64`, `clang_64`, ...
 - Or set environment variable `Qt5_DIR`.
 
+## Dependencies
+
+![dependencies](./docs/dependencies.svg)
+
 ## Author
 
 Olivier Le Doeuff, [olivier.ldff@gmail.com](olivier.ldff@gmail.com)
