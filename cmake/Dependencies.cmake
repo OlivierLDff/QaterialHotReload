@@ -42,27 +42,21 @@ set(QTMACCMAKE_TAG "a398dd9c529aeda674fd63af747d84e0752732fd" CACHE STRING "QtMa
 set(QTGENERATORCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtGeneratorCMake.git" CACHE STRING "QtGeneratorCMake repository, can be a local URL")
 set(QTGENERATORCMAKE_TAG "master" CACHE STRING "QtGeneratorCMake git tag")
 
-set(FETCHGOOGLEFONTCMAKE_REPOSITORY "https://github.com/OlivierLDff/FetchGoogleFontCMake.git" CACHE STRING "FetchGoogleFontCMake repository, can be a local URL")
-set(FETCHGOOGLEFONTCMAKE_TAG "master" CACHE STRING "FetchGoogleFontCMake git tag")
-
 set(GOOGLEFONTS_REPOSITORY "https://github.com/OlivierLDff/fonts" CACHE STRING "Google fonts repository, can be a local URL")
 set(GOOGLEFONTS_TAG "master" CACHE STRING "Google fonts git tag")
-
-set(MATERIALDESIGNICONS_REPOSITORY "https://github.com/OlivierLDff/MaterialDesignSvgo" CACHE STRING "MaterialDesignIcons repository url")
-set(MATERIALDESIGNICONS_TAG master CACHE STRING "MaterialDesignIcons git tag")
 
 ## Qml Libraries
 
 set(SFPM_REPOSITORY "https://github.com/OlivierLDff/SortFilterProxyModel.git" CACHE STRING "SortFilterProxyModel repository url")
-set(SFPM_TAG "master" CACHE STRING "SortFilterProxyModel git tag")
+set(SFPM_TAG "2efec2ca6df043af03d5c01bd4b1cd318f05921f" CACHE STRING "SortFilterProxyModel git tag")
 
 set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
-set(QATERIAL_TAG "master" CACHE STRING "Qaterial git tag")
+set(QATERIAL_TAG "b86ec2fe2a9b365fd16153e370f2e704f5761362" CACHE STRING "Qaterial git tag")
 
 ## C++ libraries
 
 set(SPDLOG_REPOSITORY "https://github.com/gabime/spdlog" CACHE STRING "spdlog repository url")
-set(SPDLOG_TAG "v1.x" CACHE STRING "spdlog git tag")
+set(SPDLOG_TAG "7d07e0312a9185789977b9b0d1b18bae52db6b72" CACHE STRING "spdlog git tag")
 
 set(QOLM_REPOSITORY "https://github.com/OlivierLDff/QOlm.git" CACHE STRING "QOlm repository url")
-set(QOLM_TAG "master" CACHE STRING "QOlm git tag")
+set(QOLM_TAG "557cdbbc44618b4214f3912286191c3e5ac64e21" CACHE STRING "QOlm git tag")
