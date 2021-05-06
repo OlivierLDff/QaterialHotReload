@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - ci
+      - ci-linux
 
   release:
     types:
