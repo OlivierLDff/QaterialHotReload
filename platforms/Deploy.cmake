@@ -48,6 +48,9 @@ if(${CMAKE_SYSTEM_NAME} STREQUAL "Linux")
       QML_DIR ${PROJECT_SOURCE_DIR}/qml
       NO_TRANSLATIONS
       ${QATERIALHOTRELOAD_ALLOW_ENVIRONMENT_VARIABLE}
+      EXTRA_PLUGINS
+        "platformthemes/libqgtk3.so"
+        "renderers/libopenglrenderer.so"
       VERBOSE_LEVEL 1
     )
 
