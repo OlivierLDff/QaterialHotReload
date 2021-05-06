@@ -25,8 +25,8 @@
 set(QTSTATICCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtStaticCMake.git" CACHE STRING "QtStaticCMake repository, can be a local URL")
 set(QTSTATICCMAKE_TAG "master" CACHE STRING "QtStaticCMake git tag")
 
-set(QLINUXCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtLinuxCMake.git" CACHE STRING "QtLinuxCMake repository, can be a local URL")
-set(QLINUXCMAKE_TAG "b9f2108feb0523c844fd5ecd19f4e240d786a48b" CACHE STRING "QtLinuxCMake git tag")
+set(QTLINUXCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtLinuxCMake.git" CACHE STRING "QtLinuxCMake repository, can be a local URL")
+set(QTLINUXCMAKE_TAG "b9f2108feb0523c844fd5ecd19f4e240d786a48b" CACHE STRING "QtLinuxCMake git tag")
 
 set(QTWINDOWSCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtWindowsCMake" CACHE STRING "Repository of QtWindowsCMake")
 set(QTWINDOWSCMAKE_TAG "8f324287de9e568eec905091750533d0dbec7cbc" CACHE STRING "Git Tag of QtWindowsCMake")
