@@ -91,13 +91,14 @@ Rectangle
       verticalAlignment: Text.AlignVCenter
     } // Qaterial.Label
 
-    Qaterial.LabelCaption
+    Qaterial.Label
     {
       id: _version
       anchors.verticalCenter: parent.verticalCenter
       anchors.right: parent.right
       anchors.rightMargin: Qaterial.Style.card.horizontalPadding
       text: Qaterial.Version.readable
+      font: Qaterial.Style.textTheme.caption
     }
   }
 }
