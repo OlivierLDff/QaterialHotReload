@@ -1,3 +1,7 @@
+if(TARGET Qaterial)
+  return()
+endif()
+
 include(FetchContent)
 
 set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
