@@ -26,8 +26,6 @@
 #include <memory>
 #include <set>
 
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/sink.h>
 
 #include <QtCore/QObject>
 #include <QtCore/QFile>

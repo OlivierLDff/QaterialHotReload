@@ -52,8 +52,3 @@ set(SFPM_TAG "2efec2ca6df043af03d5c01bd4b1cd318f05921f" CACHE STRING "SortFilter
 
 set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
 set(QATERIAL_TAG "v1.4.5" CACHE STRING "Qaterial git tag")
-
-## C++ libraries
-
-set(SPDLOG_REPOSITORY "https://github.com/gabime/spdlog" CACHE STRING "spdlog repository url")
-set(SPDLOG_TAG "7d07e0312a9185789977b9b0d1b18bae52db6b72" CACHE STRING "spdlog git tag")

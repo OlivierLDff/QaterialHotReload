@@ -23,26 +23,12 @@
 #ifndef __QATERIAL_HOT_RELOAD_HPP__
 #define __QATERIAL_HOT_RELOAD_HPP__
 
-// ──── INCLUDE ────
-
-#include <spdlog/sinks/base_sink.h>
-
-#include <QQmlEngine>
-#include <QtQml>
-#include <QFileSystemWatcher>
-
-// ──── DECLARATION ────
+#include <QtCore/QStringList>
+#include <QtCore/QFileSystemWatcher>
+#include <QtQml/QQmlEngine>
+#include <QtQml/QtQml>
 
 namespace qaterial {
-
-class HotReloadSink : public spdlog::sinks::base_sink<std::mutex>
-{
-public:
-    class HotReload* _hotReload = nullptr;
-
-    void sink_it_(const spdlog::details::log_msg& msg) override;
-    void flush_() override {}
-};
 
 class HotReload : public QObject
 {
@@ -55,7 +41,6 @@ public:
 private:
     QQmlEngine* _engine;
     QFileSystemWatcher _watcher;
-    static const std::shared_ptr<HotReloadSink> _sink;
     QStringList _defaultImportPaths;
 
     Q_PROPERTY(QStringList importPaths READ importPaths WRITE setImportPaths RESET resetImportPaths NOTIFY importPathsChanged)
@@ -83,12 +68,10 @@ Q_SIGNALS:
     void newLog(QString s);
 
 public:
-    static std::shared_ptr<HotReloadSink> sink();
-
-public:
     static void registerSingleton();
     static void resetImportPath();
     static bool getResetImportPath() { return _resetImportPath; }
+    static void log(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
 private:
     static bool _resetImportPath;

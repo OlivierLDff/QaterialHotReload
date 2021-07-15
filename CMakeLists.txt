@@ -96,7 +96,6 @@ add_library(${QATERIALHOTRELOAD_LIB} STATIC
 add_library(Qaterial::HotReload ALIAS ${QATERIALHOTRELOAD_LIB})
 
 target_link_libraries(${QATERIALHOTRELOAD_LIB} PUBLIC
-  spdlog::spdlog
   Qt::Core
   Qt::Qml
 )

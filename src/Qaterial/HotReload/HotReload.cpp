@@ -1,4 +1,4 @@
-// MIT License
+﻿// MIT License
 //
 // Copyright (c) 2020 Olivier Le Doeuff
 //
@@ -20,52 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ──── INCLUDE ────
-
-// Qaterial
 #include <Qaterial/HotReload/HotReload.hpp>
-#include <Qaterial/Qaterial.hpp>
-
-// ──── DECLARATION ────
+#include <unordered_set>
 
 static void HotReload_loadResources() { Q_INIT_RESOURCE(QaterialHotReload); }
 
 namespace qaterial {
 
-const std::shared_ptr<HotReloadSink> HotReload::_sink = std::make_shared<HotReloadSink>();
 bool HotReload::_resetImportPath = false;
-
-void HotReloadSink::sink_it_(const spdlog::details::log_msg& msg)
-{
-    if(!_hotReload)
-        return;
-
-    // log_msg is a struct containing the log entry info like level, timestamp, thread id etc.
-    // msg.raw contains pre formatted log
-
-    // If needed (very likely but not mandatory), the sink formats the message before sending it to its final destination:
-    spdlog::memory_buf_t formatted;
-    base_sink<std::mutex>::formatter_->format(msg, formatted);
-    const auto string = fmt::to_string(formatted);
-    if(_hotReload)
-        Q_EMIT _hotReload->newLog(QString::fromStdString(string));
-}
+static std::unordered_set<HotReload*> hotReloaders;
 
 HotReload::HotReload(QQmlEngine* engine, QObject* parent) : QObject(parent), _engine(engine)
 {
     connect(&_watcher, &QFileSystemWatcher::fileChanged, this, &HotReload::watchedFileChanged);
     HotReload_loadResources();
+    hotReloaders.insert(this);
 }
 
-HotReload::~HotReload()
-{
-    if(_sink->_hotReload == this)
-        _sink->_hotReload = nullptr;
-}
+HotReload::~HotReload() { hotReloaders.erase(this); }
 
 void HotReload::clearCache() const { _engine->clearComponentCache(); }
-
-std::shared_ptr<HotReloadSink> HotReload::sink() { return _sink; }
 
 void HotReload::registerSingleton()
 {
@@ -77,13 +51,17 @@ void HotReload::registerSingleton()
         {
             Q_UNUSED(scriptEngine);
             auto* instance = new qaterial::HotReload(engine, engine);
-            _sink->_hotReload = instance;
             instance->_defaultImportPaths = engine->importPathList();
             return instance;
         });
 }
 
 void HotReload::resetImportPath() { _resetImportPath = true; }
+
+void HotReload::log(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+    for(auto* hr: hotReloaders) { Q_EMIT hr->newLog(msg); }
+}
 
 void HotReload::watchFile(const QString& path) { _watcher.addPath(path); }
 
