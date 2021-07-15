@@ -35,28 +35,31 @@
 
 void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    const auto timestamp = QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
-    const auto category = [type]() -> QString
-    {
-        switch(type)
-        {
-        case QtDebugMsg: return "debug";
-        case QtWarningMsg: return "warning";
-        case QtCriticalMsg: return "error";
-        case QtFatalMsg: return "error";
-        case QtInfoMsg: return "info";
-        default: return "unknown";
-        }
-    }();
+    qaterial::HotReload::log(type, context, msg);
 
-    const auto log = "[" + timestamp + "] [" + context.category + "] [" + category + "] : " + msg;
-    qaterial::HotReload::log(type, context, log);
+    {
+        const auto timestamp = QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+        const auto category = [type]() -> QString
+        {
+            switch(type)
+            {
+            case QtDebugMsg: return "debug";
+            case QtWarningMsg: return "warning";
+            case QtCriticalMsg: return "error";
+            case QtFatalMsg: return "error";
+            case QtInfoMsg: return "info";
+            default: return "unknown";
+            }
+        }();
+
+        const auto log = "[" + timestamp + "] [" + context.category + "] [" + category + "] : " + msg;
 #if defined(Q_OS_WIN)
-    const auto winLog = log + "\n";
-    OutputDebugStringW(reinterpret_cast<const wchar_t*>(winLog.utf16()));
+        const auto winLog = log + "\n";
+        OutputDebugStringW(reinterpret_cast<const wchar_t*>(winLog.utf16()));
 #elif defined(Q_OS_ANDROID)
-    android_default_message_handler(type, context, msg);
+        android_default_message_handler(type, context, msg);
 #endif
+    }
 }
 
 int main(int argc, char* argv[])

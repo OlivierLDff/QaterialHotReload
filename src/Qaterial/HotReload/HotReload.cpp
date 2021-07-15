@@ -60,7 +60,24 @@ void HotReload::resetImportPath() { _resetImportPath = true; }
 
 void HotReload::log(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-    for(auto* hr: hotReloaders) { Q_EMIT hr->newLog(msg); }
+    // todo : better log ui
+    const auto timestamp = QDateTime::currentDateTime().toString("hh:mm:ss.zzz");
+    const auto category = [type]() -> QString
+    {
+        switch(type)
+        {
+        case QtDebugMsg: return "debug";
+        case QtWarningMsg: return "warning";
+        case QtCriticalMsg: return "error";
+        case QtFatalMsg: return "error";
+        case QtInfoMsg: return "info";
+        default: return "unknown";
+        }
+    }();
+
+    const auto log = "[" + timestamp + "] [" + context.category + "] [" + category + "] : " + msg;
+
+    for(auto* hr: hotReloaders) { Q_EMIT hr->newLog(log); }
 }
 
 void HotReload::watchFile(const QString& path) { _watcher.addPath(path); }
