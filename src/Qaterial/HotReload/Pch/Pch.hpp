@@ -26,20 +26,14 @@
 #include <memory>
 #include <set>
 
-
 #include <QtCore/QObject>
-#include <QtCore/QFile>
-#include <QtCore/QSaveFile>
 #include <QtCore/QObject>
 #include <QtCore/QString>
-#include <QtCore/QFileInfo>
 #include <QtCore/QUrl>
 #include <QtCore/QDir>
 #include <QtGui/QGuiApplication>
-#include <QtGui/QFontDatabase>
 
 #include <QtQml/QQmlEngine>
-#include <QtQml/QQmlFile>
 
 #ifdef major
 #    undef major
