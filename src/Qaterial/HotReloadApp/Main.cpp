@@ -20,21 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// ──── INCLUDE ────
-
-// Qaterial
 #include <Qaterial/Qaterial.hpp>
 #include <Qaterial/HotReload/HotReload.hpp>
 #include <SortFilterProxyModel/SortFilterProxyModel.hpp>
 
 
-// Qt
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml>
 #include <QIcon>
-
-// ──── DECLARATION ────
 #ifdef Q_OS_WIN
 #    include <Windows.h>
 #endif
@@ -63,9 +57,6 @@ void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QStrin
     android_default_message_handler(type, context, msg);
 #endif
 }
-
-
-// ──── FUNCTIONS ────
 
 int main(int argc, char* argv[])
 {
