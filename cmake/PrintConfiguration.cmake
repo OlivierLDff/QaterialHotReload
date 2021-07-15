@@ -1,0 +1,32 @@
+include(ProcessorCount)
+ProcessorCount(N)
+if(N EQUAL 0)
+  set(PARALLEL_LEVEL "")
+else()
+  set(PARALLEL_LEVEL "-j${N}")
+endif()
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+if(Qt5_VERSION)
+  set(QT_VERSION ${Qt5_VERSION})
+else()
+  set(QT_VERSION ${Qt6_VERSION})
+endif()
+
+message(STATUS " ")
+message(STATUS "Versions:")
+message(STATUS "  Qaterial       : ${QATERIAL_VERSION}")
+message(STATUS "  QOlm           : ${QOLM_VERSION}")
+message(STATUS "  Qt             : ${QT_VERSION}")
+
+message(STATUS " ")
+message(STATUS "Targets:")
+message(STATUS "  QaterialHotReload           : cmake --build . --target QaterialHotReload --config ${CMAKE_BUILD_TYPE} ${PARALLEL_LEVEL}")
+if(TARGET QaterialHotReloadApp)
+message(STATUS "  QaterialHotReloadApp        : cmake --build . --target QaterialHotReloadApp --config ${CMAKE_BUILD_TYPE} ${PARALLEL_LEVEL}")
+endif()
+
+message(STATUS " ")

@@ -241,3 +241,9 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   include(platforms/Deploy.cmake)
 
 endif()
+
+# ───── DUMP CONFIGURATION ─────
+
+if(QATERIALHOTRELOAD_MAIN_PROJECT)
+  include(cmake/PrintConfiguration.cmake)
+endif()
