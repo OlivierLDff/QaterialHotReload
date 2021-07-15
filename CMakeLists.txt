@@ -102,7 +102,7 @@ target_link_libraries(${QATERIALHOTRELOAD_LIB} PUBLIC
 )
 target_link_libraries(${QATERIALHOTRELOAD_LIB} PRIVATE
   Qaterial::HotReload::Ui
-  Qaterial
+  Qaterial::Qaterial
 )
 
 function(target_link_quiet_libraries TARGET)
@@ -224,7 +224,7 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   endif()
 
   target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE
-    Qaterial
+    Qaterial::Qaterial
     Qaterial::HotReload
     SortFilterProxyModel
     Qt::Widgets
