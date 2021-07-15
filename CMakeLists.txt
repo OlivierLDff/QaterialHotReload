@@ -227,6 +227,7 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
     Qaterial
     Qaterial::HotReload
     SortFilterProxyModel
+    Qt::Widgets
   )
 
   if(QATERIALHOTRELOAD_ENABLE_PCH AND COMMAND target_precompile_headers)

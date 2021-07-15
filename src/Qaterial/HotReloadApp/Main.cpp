@@ -40,17 +40,18 @@
 #include <QIcon>
 
 // ──── DECLARATION ────
+static auto LOGGER = std::make_shared<spdlog::logger>("qaterial.hotreload");
 
 void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     const auto localMsg = msg.toLocal8Bit();
     switch(type)
     {
-    case QtDebugMsg: qaterial::Logger::QATERIAL->debug(localMsg.constData()); break;
-    case QtInfoMsg: qaterial::Logger::QATERIAL->info(localMsg.constData()); break;
-    case QtWarningMsg: qaterial::Logger::QATERIAL->warn(localMsg.constData()); break;
-    case QtCriticalMsg: qaterial::Logger::QATERIAL->error(localMsg.constData()); break;
-    case QtFatalMsg: qaterial::Logger::QATERIAL->error(localMsg.constData()); abort();
+    case QtDebugMsg: LOGGER->debug(localMsg.constData()); break;
+    case QtInfoMsg: LOGGER->info(localMsg.constData()); break;
+    case QtWarningMsg: LOGGER->warn(localMsg.constData()); break;
+    case QtCriticalMsg: LOGGER->error(localMsg.constData()); break;
+    case QtFatalMsg: LOGGER->error(localMsg.constData()); abort();
     }
 
 #if defined(Q_OS_WIN)
@@ -65,14 +66,13 @@ void installLoggers()
     qInstallMessageHandler(qtMsgOutput);
 #ifdef WIN32
     const auto msvcSink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
-    qaterial::Logger::registerSink(msvcSink);
+    LOGGER->sinks().emplace_back(msvcSink);
 #endif
     const auto stdoutSink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    qaterial::Logger::registerSink(stdoutSink);
-    qaterial::Logger::registerSink(qaterial::HotReload::sink());
     stdoutSink->set_level(spdlog::level::debug);
     qaterial::HotReload::sink()->set_level(spdlog::level::debug);
-    qaterial::Logger::QATERIAL->set_level(spdlog::level::debug);
+    LOGGER->sinks().emplace_back(qaterial::HotReload::sink());
+    LOGGER->set_level(spdlog::level::debug);
 }
 
 // ──── FUNCTIONS ────
@@ -96,7 +96,10 @@ int main(int argc, char* argv[])
     QGuiApplication::setOrganizationName("Qaterial");
     QGuiApplication::setApplicationName("Qaterial Hot Reload");
     QGuiApplication::setOrganizationDomain("https://olivierldff.github.io/Qaterial/");
-    QGuiApplication::setApplicationVersion(qaterial::Version::version().readable());
+    const QString version = QString::number(qaterial::versionMajor()) + QStringLiteral(".") + QString::number(qaterial::versionMinor()) +
+                            QStringLiteral(".") + QString::number(qaterial::versionPatch()) + QStringLiteral(".0x") +
+                            QString::number(qaterial::versionTag(), 16).rightJustified(8, QChar('0'));
+    QGuiApplication::setApplicationVersion(version);
     QGuiApplication::setWindowIcon(QIcon(":/Qaterial/HotReload/Images/icon.svg"));
 
     QCommandLineParser parser;

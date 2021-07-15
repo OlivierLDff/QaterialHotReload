@@ -30,6 +30,7 @@ find_package(Qt5 REQUIRED COMPONENTS
   QuickControls2
   Svg
   Xml
+  Widgets
   QuickCompiler
 )
 
@@ -57,4 +58,5 @@ find_package(Qt5 QUIET COMPONENTS
 
 include(${PROJECT_SOURCE_DIR}/cmake/FetchQtGeneratorCMake.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/FetchSortFilterProxyModel.cmake)
+include(${PROJECT_SOURCE_DIR}/cmake/FetchSpdlog.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/FetchQaterial.cmake)
