@@ -24,11 +24,11 @@
 #include <Qaterial/HotReload/HotReload.hpp>
 #include <SortFilterProxyModel/SortFilterProxyModel.hpp>
 
+#include <QtGui/QIcon>
+#include <QtQml/QQmlApplicationEngine>
+#include <QtQml/QtQml>
+#include <QtWidgets/QApplication>
 
-#include <QApplication>
-#include <QQmlApplicationEngine>
-#include <QtQml>
-#include <QIcon>
 #ifdef Q_OS_WIN
 #    include <Windows.h>
 #endif
