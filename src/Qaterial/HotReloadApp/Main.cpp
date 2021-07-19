@@ -22,7 +22,9 @@
 
 #include <Qaterial/Qaterial.hpp>
 #include <Qaterial/HotReload/HotReload.hpp>
-#include <SortFilterProxyModel/SortFilterProxyModel.hpp>
+#ifdef QATERIALHOTRELOAD_ENABLE_SFPM
+#    include <SortFilterProxyModel/SortFilterProxyModel.hpp>
+#endif
 
 #include <QtGui/QIcon>
 #include <QtQml/QQmlApplicationEngine>
@@ -106,7 +108,10 @@ int main(int argc, char* argv[])
     qaterial::HotReload::registerSingleton();
     if(parser.isSet(resetimport))
         qaterial::HotReload::resetImportPath();
+
+#ifdef QATERIALHOTRELOAD_ENABLE_SFPM
     qqsfpm::registerQmlTypes();
+#endif
 
     // ──── LOAD QML MAIN ────
 
