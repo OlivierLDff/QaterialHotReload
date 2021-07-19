@@ -57,5 +57,8 @@ find_package(Qt5 QUIET COMPONENTS
 )
 
 include(${PROJECT_SOURCE_DIR}/cmake/FetchQtGeneratorCMake.cmake)
-include(${PROJECT_SOURCE_DIR}/cmake/FetchSortFilterProxyModel.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/FetchQaterial.cmake)
+
+if(QATERIALHOTRELOAD_ENABLE_SFPM)
+  include(${PROJECT_SOURCE_DIR}/cmake/FetchSortFilterProxyModel.cmake)
+endif()
