@@ -664,6 +664,13 @@ Qaterial.Page
           let component = Qt.createComponent(url)
           console.timeEnd("createComponent");
 
+          // This case can happen if no url is set, ie when app is in on-boarding screen
+          if(!component)
+          {
+            Qaterial.DialogManager.close()
+            return
+          }
+
           console.time("incubateObject");
           if(component.status === Component.Ready)
           {
