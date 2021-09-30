@@ -14,7 +14,7 @@ Rectangle
   implicitWidth: 500
   implicitHeight: 100
 
-  color: Qaterial.Style.theme === Qaterial.Style.Theme.Dark ? "#24262A" : "white"
+  color: Qaterial.Style.colorTheme.background0
 
   function append(text)
   {

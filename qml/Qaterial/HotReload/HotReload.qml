@@ -545,6 +545,8 @@ Qaterial.Page
     orientation: Qt.Vertical
     SplitView.fillWidth: true
 
+    handleBackgroundColor: folderSplitView.handleBackgroundColor
+
     SplitView
     {
       id: folderSplitView
@@ -552,10 +554,12 @@ Qaterial.Page
       SplitView.fillHeight: true
       SplitView.minimumHeight: 100
 
+      handleBackgroundColor: Qt.darker(Qaterial.Style.colorTheme.background0, 1.1)
+
       Rectangle
       {
         visible: root.showFolderExplorer
-        color: Qaterial.Style.theme === Qaterial.Style.Theme.Dark ? "#2A2C30" : "white"
+        color: Qaterial.Style.colorTheme.background1
         z: 10
 
         SplitView.preferredWidth: 200
