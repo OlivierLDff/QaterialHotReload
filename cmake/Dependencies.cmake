@@ -51,4 +51,4 @@ set(SFPM_REPOSITORY "https://github.com/OlivierLDff/SortFilterProxyModel.git" CA
 set(SFPM_TAG "2efec2ca6df043af03d5c01bd4b1cd318f05921f" CACHE STRING "SortFilterProxyModel git tag")
 
 set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
-set(QATERIAL_TAG "v1.4.5" CACHE STRING "Qaterial git tag")
+set(QATERIAL_TAG "v1.4.6" CACHE STRING "Qaterial git tag")
