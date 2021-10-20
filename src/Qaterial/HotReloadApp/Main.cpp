@@ -92,6 +92,9 @@ int main(int argc, char* argv[])
     QCommandLineParser parser;
     const QCommandLineOption resetImport(QStringList({"reset-imports"}), QCoreApplication::translate("main", "Force reset of imports"));
     parser.addOption(resetImport);
+    const QCommandLineOption resetCurrentFile(QStringList({"reset-current-file"}),
+        QCoreApplication::translate("main", "Force reset of current file"));
+    parser.addOption(resetCurrentFile);
     parser.process(app);
 
     // ──── LOAD AND REGISTER QML ────
@@ -108,6 +111,8 @@ int main(int argc, char* argv[])
     qaterial::HotReload::registerSingleton();
     if(parser.isSet(resetImport))
         qaterial::HotReload::resetImportPath();
+    if(parser.isSet(resetCurrentFile))
+        qaterial::HotReload::resetCurrentFile();
 
 #ifdef QATERIALHOTRELOAD_ENABLE_SFPM
     qqsfpm::registerQmlTypes();
