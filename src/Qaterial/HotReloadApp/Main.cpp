@@ -90,8 +90,8 @@ int main(int argc, char* argv[])
     QGuiApplication::setWindowIcon(QIcon(":/Qaterial/HotReload/Images/icon.svg"));
 
     QCommandLineParser parser;
-    QCommandLineOption resetimport(QStringList({"reset-imports"}), QCoreApplication::translate("main", "Force reset of imports"));
-    parser.addOption(resetimport);
+    const QCommandLineOption resetImport(QStringList({"reset-imports"}), QCoreApplication::translate("main", "Force reset of imports"));
+    parser.addOption(resetImport);
     parser.process(app);
 
     // ──── LOAD AND REGISTER QML ────
@@ -106,7 +106,7 @@ int main(int argc, char* argv[])
     qaterial::loadQmlResources();
     qaterial::registerQmlTypes();
     qaterial::HotReload::registerSingleton();
-    if(parser.isSet(resetimport))
+    if(parser.isSet(resetImport))
         qaterial::HotReload::resetImportPath();
 
 #ifdef QATERIALHOTRELOAD_ENABLE_SFPM
