@@ -28,6 +28,7 @@ static void HotReload_loadResources() { Q_INIT_RESOURCE(QaterialHotReload); }
 namespace qaterial {
 
 bool HotReload::_resetImportPath = false;
+bool HotReload::_resetCurrentFile = false;
 static std::unordered_set<HotReload*> hotReloaders;
 
 HotReload::HotReload(QQmlEngine* engine, QObject* parent) : QObject(parent), _engine(engine)
@@ -57,6 +58,8 @@ void HotReload::registerSingleton()
 }
 
 void HotReload::resetImportPath() { _resetImportPath = true; }
+
+void HotReload::resetCurrentFile() { _resetCurrentFile = true; }
 
 void HotReload::log(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {

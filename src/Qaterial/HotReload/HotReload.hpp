@@ -45,6 +45,7 @@ private:
 
     Q_PROPERTY(QStringList importPaths READ importPaths WRITE setImportPaths RESET resetImportPaths NOTIFY importPathsChanged)
     Q_PROPERTY(bool resetImportPath READ getResetImportPath CONSTANT);
+    Q_PROPERTY(bool resetCurrentFile READ getResetCurrentFile CONSTANT);
 
 public:
     QStringList importPaths() const { return _engine->importPathList(); }
@@ -70,11 +71,14 @@ Q_SIGNALS:
 public:
     static void registerSingleton();
     static void resetImportPath();
+    static void resetCurrentFile();
     static bool getResetImportPath() { return _resetImportPath; }
+    static bool getResetCurrentFile() { return _resetCurrentFile; }
     static void log(QtMsgType type, const QMessageLogContext& context, const QString& msg);
 
 private:
     static bool _resetImportPath;
+    static bool _resetCurrentFile;
 };
 
 }

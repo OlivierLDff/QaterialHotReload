@@ -809,6 +809,13 @@ Qaterial.Page
     folderSplitView.restoreState(settings.folderSplitView)
     Qaterial.Style.theme = root.theme
 
+    if(Qaterial.HotReload.resetCurrentFile)
+    {
+      console.log('Reset current file path')
+      currentFilePath = ""
+      currentFileUrl = ""
+    }
+
     if(Qaterial.HotReload.importPaths !== root.currentImportPath)
     {
       if(root.currentImportPath.length && !Qaterial.HotReload.resetImportPath)
