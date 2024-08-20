@@ -38,10 +38,6 @@ set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build QaterialHotReloadApp as
 # Might be useful to disable if you only want the HotReload Gui to integrate into your project
 set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "Build Qaterial HotReload application")
 set(QATERIALHOTRELOAD_IGNORE_ENV OFF CACHE BOOL "Ignore qt environment variables")
-set(QATERIALHOTRELOAD_ENABLE_PCH ON CACHE BOOL
- "Enable precompile headers support for 'QaterialHotReload'. \"
- Only work if CMake support 'target_precompile_headers'. \"
- This can speed up compilation time.")
 
 set(QATERIALHOTRELOAD_ENABLE_CHARTS ON CACHE BOOL "Enable Qt::Charts")
 set(QATERIALHOTRELOAD_ENABLE_DATAVIZ ON CACHE BOOL "Enable Qt::DataVisualization")
@@ -229,16 +225,6 @@ target_compile_definitions(${QATERIALHOTRELOAD_LIB}
   PRIVATE -DQATERIALHOTRELOAD_VERSION_TAG_HEX=${QATERIALHOTRELOAD_VERSION_TAG_HEX}
 )
 
-if(QATERIALHOTRELOAD_ENABLE_PCH AND COMMAND target_precompile_headers)
-  target_precompile_headers(${QATERIALHOTRELOAD_LIB} PRIVATE ${PROJECT_SOURCE_DIR}/src/Qaterial/HotReload/Pch/Pch.hpp)
-endif()
-
-get_target_property(QT_TARGET_TYPE Qt::Core TYPE)
-if(${QT_TARGET_TYPE} STREQUAL "STATIC_LIBRARY")
-  qt_generate_qml_plugin_import(${QATERIALHOTRELOAD_LIB} QML_SRC ${CMAKE_CURRENT_SOURCE_DIR})
-  qt_generate_plugin_import(${QATERIALHOTRELOAD_LIB})
-endif()
-
 # ───── HOTRELOAD APPLICATION ─────
 
 if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
@@ -255,15 +241,11 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
     qt_add_executable(${QATERIALHOTRELOAD_APP} ${QATERIALHOTRELOAD_APP_SRCS})
   endif()
 
-  target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE
-    Qaterial::Qaterial
-    Qaterial::HotReload
-    Qt::Widgets
+  target_link_libraries(${QATERIALHOTRELOAD_APP}
+    PRIVATE Qaterial::Qaterial
+    PRIVATE Qaterial::HotReload
+    PRIVATE Qt::Widgets
   )
-
-  if(QATERIALHOTRELOAD_ENABLE_PCH AND COMMAND target_precompile_headers)
-    target_precompile_headers(${QATERIALHOTRELOAD_APP} PRIVATE ${PROJECT_SOURCE_DIR}/src/Qaterial/HotReload/Pch/Pch.hpp)
-  endif()
 
   if(QATERIALHOTRELOAD_IGNORE_ENV)
     message(STATUS "The executable will discard every ")
