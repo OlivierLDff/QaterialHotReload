@@ -1,12 +1,11 @@
 // Copyright Olivier Le Doeuff 2020 (C)
 
+import QtCore
 import QtQml
 
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
-
-import Qt.labs.settings as QLab
 
 import Qaterial as Qaterial
 import Qaterial.HotReload as HR
@@ -55,7 +54,7 @@ Qaterial.Page
     loadFileInLoader(root.currentFileUrl)
   }
 
-  QLab.Settings
+  Settings
   {
     id: settings
 

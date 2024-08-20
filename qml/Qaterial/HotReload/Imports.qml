@@ -15,7 +15,6 @@ import Qt5Compat.GraphicalEffects
 
 import Qt.labs.animation
 import Qt.labs.calendar
-import Qt.labs.settings as QLab
 import Qt.labs.platform
 import Qt.labs.qmlmodels
 import Qt.labs.folderlistmodel
