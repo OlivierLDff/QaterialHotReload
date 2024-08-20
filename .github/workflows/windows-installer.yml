@@ -29,7 +29,7 @@ jobs:
         with:
           version: ${{ matrix.qt-version }}
           cache: true
-          modules: 'qtcharts qtdatavis3d qtvirtualkeyboard qtwebengine qtnetworkauth qtquick3d qt5compat qtshadertools qtwebchannel qt3d qtwebsockets qtwebview'
+          modules: 'qtcharts qtdatavis3d qtvirtualkeyboard qtwebengine qtnetworkauth qtquick3d qt5compat qtshadertools qtwebchannel qt3d qtwebsockets qtwebview qtpositioning'
       -
         name: 🔧 Configure
         run: |
