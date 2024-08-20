@@ -6,9 +6,16 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
+    nix-filter.url = "github:numtide/nix-filter";
     nix-gl-host = {
       url = "github:numtide/nix-gl-host";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    qolm = {
+      url = "github:olivierldff/qolm/flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.nix-filter.follows = "nix-filter";
     };
   };
 
@@ -16,12 +23,19 @@
     { self
     , nixpkgs
     , flake-utils
+    , nix-filter
     , nix-gl-host
+    , qolm
     }:
     flake-utils.lib.eachDefaultSystem (system:
     let
       pkgs = import nixpkgs {
         inherit system;
+        overlays = [
+          (_: _: {
+            inherit (qolm.packages.${system}) qolm;
+          })
+        ];
       };
 
       qt = pkgs.qt6;
@@ -38,7 +52,9 @@
         gtest
       ];
 
-      buildInputs = with pkgs.qt6; [
+      buildInputs = [
+        pkgs.qolm
+      ] ++ (with pkgs.qt6; [
         qtbase
         qtsvg
         qtdeclarative
@@ -55,7 +71,7 @@
         qtwebchannel
         qtserialport
         qtshadertools
-      ];
+      ]);
 
       nativeCheckInputs = with pkgs; [
         dbus
