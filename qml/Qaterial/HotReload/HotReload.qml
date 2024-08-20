@@ -1,15 +1,15 @@
 // Copyright Olivier Le Doeuff 2020 (C)
 
-import QtQml 2.14
+import QtQml
 
-import QtQuick 2.14
-import QtQuick.Layouts 1.14
-import QtQuick.Controls 2.14
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import Qt.labs.settings 1.1 as QLab
+import Qt.labs.settings as QLab
 
-import Qaterial 1.0 as Qaterial
-import Qaterial.HotReload 1.0 as HR
+import Qaterial as Qaterial
+import Qaterial.HotReload as HR
 
 Qaterial.Page
 {

@@ -19,7 +19,7 @@ set(SINGLETON_FILES
 
 set_source_files_properties(${SINGLETON_FILES} PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 
-qt_add_qml_module(${QATERIAL_TARGET}Icons
+qt_add_qml_module(${QATERIALHOTRELOAD_LIB}Ui
     URI "Qaterial.HotReload"
     RESOURCE_PREFIX "/"
     QML_FILES
