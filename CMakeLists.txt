@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.14.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
 # ───── PROJECT OPTIONS ─────
 
@@ -33,7 +33,7 @@ include(cmake/Version.cmake)
 
 set(QATERIALHOTRELOAD_PROJECT "QaterialHotReload" CACHE STRING "Project Name")
 set(QATERIALHOTRELOAD_FOLDER_PREFIX "Qaterial/HotReload" CACHE STRING "Prefix folder for all Qaterial generated targets in generated project (only decorative)")
-set(QATERIALHOTRELOAD_VERBOSE OFF CACHE BOOL "QaterialHotReload log configuration")
+set(QATERIALHOTRELOAD_VERBOSE ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "QaterialHotReload log configuration")
 set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
 # Might be useful to disable if you only want the HotReload Gui to integrate into your project
 set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "Build Qaterial HotReload application")
@@ -84,11 +84,32 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # ───── FETCH DEPEDENCIES ─────
 
-include(cmake/FetchDependencies.cmake)
+if(QATERIALHOTRELOAD_MAIN_PROJECT)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
 
-if(QATERIAL_MAIN_PROJECT)
+include(cmake/Dependencies.cmake)
+
+find_package(Qt6 REQUIRED COMPONENTS
+  Core
+  Gui
+  Qml
+  Quick
+  QuickControls2
+  Svg
+  Xml
+  Widgets
+  Core5Compat
+)
+
+if(QATERIALHOTRELOAD_MAIN_PROJECT)
+  message(STATUS "Setting up ${QATERIALHOTRELOAD_PROJECT} as main project")
   qt_standard_project_setup()
 endif()
+
+include(cmake/FetchQaterial.cmake)
+
 # ───── HOTRELOAD LIBRARY ─────
 
 set(QATERIALHOTRELOAD_LIB QaterialHotReload)

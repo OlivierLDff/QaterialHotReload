@@ -114,10 +114,6 @@ int main(int argc, char* argv[])
     if(parser.isSet(resetCurrentFile))
         qaterial::HotReload::resetCurrentFile();
 
-#ifdef QATERIALHOTRELOAD_ENABLE_SFPM
-    qqsfpm::registerQmlTypes();
-#endif
-
     // ──── LOAD QML MAIN ────
 
     engine.load(QUrl("qrc:/Qaterial/HotReload/Main.qml"));

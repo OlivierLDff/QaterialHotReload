@@ -39,7 +39,22 @@
       ];
 
       buildInputs = with pkgs.qt6; [
-        qtfull
+        qtbase
+        qtsvg
+        qtdeclarative
+        qt5compat
+        qtmultimedia
+        qt3d
+        qtgraphs
+        qtcharts
+        qtwebview
+        qtquick3d
+        qtwebengine
+        qtdatavis3d
+        qtwebsockets
+        qtwebchannel
+        qtserialport
+        qtshadertools
       ];
 
       nativeCheckInputs = with pkgs; [
@@ -90,6 +105,7 @@
         neovim
         nixglhost
       ]
+        ++ (with pkgs.qt6; [ qtlanguageserver ])
         ++ pkgs.lib.lists.optionals (stdenv.isLinux) [
         gdb
       ];
