@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     qolm = {
-      url = "github:olivierldff/qolm/flake";
+      url = "github:olivierldff/qolm/v3.2.2";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nix-filter.follows = "nix-filter";
@@ -62,14 +62,7 @@
         qtmultimedia
         qt3d
         qtgraphs
-        qtcharts
-        qtwebview
         qtquick3d
-        qtwebengine
-        qtdatavis3d
-        qtwebsockets
-        qtwebchannel
-        qtserialport
         qtshadertools
       ]);
 

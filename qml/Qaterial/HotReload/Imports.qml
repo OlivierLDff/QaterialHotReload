@@ -36,11 +36,4 @@ import QtQuick3D.Materials
 import QtQuick3D.Effects
 import QtQuick3D.Helpers
 
-import QtCharts
-import QtDataVisualization
-
-import QtQuick.VirtualKeyboard
-import QtQuick.VirtualKeyboard.Styles
-import QtQuick.VirtualKeyboard.Settings
-
 Item {}
