@@ -22,11 +22,8 @@
 
 ## CMake Platforms scripts
 
-set(QTSTATICCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtStaticCMake.git" CACHE STRING "QtStaticCMake repository, can be a local URL")
-set(QTSTATICCMAKE_TAG "v1.1.0" CACHE STRING "QtStaticCMake git tag")
-
 set(QTLINUXCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtLinuxCMake.git" CACHE STRING "QtLinuxCMake repository, can be a local URL")
-set(QTLINUXCMAKE_TAG "v1.2.2" CACHE STRING "QtLinuxCMake git tag")
+set(QTLINUXCMAKE_TAG "v1.2.3" CACHE STRING "QtLinuxCMake git tag")
 
 set(QTWINDOWSCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtWindowsCMake" CACHE STRING "Repository of QtWindowsCMake")
 set(QTWINDOWSCMAKE_TAG "v1.4.4" CACHE STRING "Git Tag of QtWindowsCMake")
