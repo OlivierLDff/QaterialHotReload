@@ -22,7 +22,7 @@
 
 include(${PROJECT_SOURCE_DIR}/cmake/Dependencies.cmake)
 
-find_package(Qt5 REQUIRED COMPONENTS
+find_package(Qt6 REQUIRED COMPONENTS
   Core
   Gui
   Qml
@@ -31,34 +31,7 @@ find_package(Qt5 REQUIRED COMPONENTS
   Svg
   Xml
   Widgets
-  QuickCompiler
+  Qt5Compat
 )
 
-find_package(Qt5 QUIET COMPONENTS
-  Charts
-  DataVisualization
-  VirtualKeyboard
-  WebChannel
-  WebSockets
-  WebEngine
-
-  3DCore
-  3DRender
-  3DInput
-  3DLogic
-  3DExtras
-  3DAnimation
-
-  Quick3D
-  Quick3DAssetImport
-  Quick3DRender
-  Quick3DRuntimeRender
-  Quick3DUtils
-)
-
-include(${PROJECT_SOURCE_DIR}/cmake/FetchQtGeneratorCMake.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/FetchQaterial.cmake)
-
-if(QATERIALHOTRELOAD_ENABLE_SFPM)
-  include(${PROJECT_SOURCE_DIR}/cmake/FetchSortFilterProxyModel.cmake)
-endif()

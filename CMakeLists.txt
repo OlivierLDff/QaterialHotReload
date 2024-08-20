@@ -51,7 +51,6 @@ set(QATERIALHOTRELOAD_ENABLE_WEBSOCKET ON CACHE BOOL "Enable Qt::WebSockets")
 set(QATERIALHOTRELOAD_ENABLE_WEBENGINE ON CACHE BOOL "Enable Qt::WebEngine")
 set(QATERIALHOTRELOAD_ENABLE_QT3D ON CACHE BOOL "Enable Qt::3DCore")
 set(QATERIALHOTRELOAD_ENABLE_QUICK3D ON CACHE BOOL "Enable Qt::Quick3D")
-set(QATERIALHOTRELOAD_ENABLE_SFPM ${QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP} CACHE BOOL "Enable SortFilterProxyModel")
 
 if(QATERIALHOTRELOAD_VERBOSE)
 
@@ -87,6 +86,9 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 include(cmake/FetchDependencies.cmake)
 
+if(QATERIAL_MAIN_PROJECT)
+  qt_standard_project_setup()
+endif()
 # ───── HOTRELOAD LIBRARY ─────
 
 set(QATERIALHOTRELOAD_LIB QaterialHotReload)
@@ -94,7 +96,7 @@ set(QATERIALHOTRELOAD_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/Qaterial/HotReload
 
 add_subdirectory(qml/Qaterial/HotReload)
 
-add_library(${QATERIALHOTRELOAD_LIB} STATIC
+qt_add_library(${QATERIALHOTRELOAD_LIB} STATIC
   ${QATERIALHOTRELOAD_SRC_DIR}/HotReload.hpp
   ${QATERIALHOTRELOAD_SRC_DIR}/HotReload.cpp
   ${QATERIALHOTRELOAD_QML_RES}
@@ -119,49 +121,49 @@ function(target_link_quiet_libraries TARGET)
 endfunction()
 
 if(QATERIALHOTRELOAD_ENABLE_CHARTS)
-  find_package(Qt5 QUIET COMPONENTS Charts)
+  find_package(Qt6 QUIET COMPONENTS Charts)
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::Charts
   )
 endif()
 
 if(QATERIALHOTRELOAD_ENABLE_DATAVIZ)
-  find_package(Qt5 QUIET COMPONENTS DataVisualization)
+  find_package(Qt6 QUIET COMPONENTS DataVisualization)
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::DataVisualization
   )
 endif()
 
 if(QATERIALHOTRELOAD_ENABLE_VIRTUALKEYBOARD)
-  find_package(Qt5 QUIET COMPONENTS VirtualKeyboard)
+  find_package(Qt6 QUIET COMPONENTS VirtualKeyboard)
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::VirtualKeyboard
   )
 endif()
 
 if(QATERIALHOTRELOAD_ENABLE_WEBCHANNEL)
-  find_package(Qt5 QUIET COMPONENTS WebChannel)
+  find_package(Qt6 QUIET COMPONENTS WebChannel)
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::WebChannel
   )
 endif()
 
 if(QATERIALHOTRELOAD_ENABLE_WEBSOCKET)
-  find_package(Qt5 QUIET COMPONENTS WebSockets)
+  find_package(Qt6 QUIET COMPONENTS WebSockets)
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::WebSockets
   )
 endif()
 
-#if(QATERIALHOTRELOAD_ENABLE_WEBENGINE)
-#  find_package(Qt5 QUIET COMPONENTS WebEngine)
-#  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-#    Qt::WebEngine
-#  )
-#endif()
+if(QATERIALHOTRELOAD_ENABLE_WEBENGINE)
+ find_package(Qt6 QUIET COMPONENTS WebEngine)
+ target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
+   Qt::WebEngine
+ )
+endif()
 
 if(QATERIALHOTRELOAD_ENABLE_QT3D)
-  find_package(Qt5 QUIET COMPONENTS
+  find_package(Qt6 QUIET COMPONENTS
     3DCore
     3DRender
     3DInput
@@ -180,6 +182,14 @@ if(QATERIALHOTRELOAD_ENABLE_QT3D)
 endif()
 
 if(QATERIALHOTRELOAD_ENABLE_QUICK3D)
+  find_package(Qt6 QUIET COMPONENTS
+    Quick3D
+    Quick3DAssetImport
+    Quick3DRender
+    Quick3DRuntimeRender
+    Quick3DUtils
+  )
+
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::Quick3D
     Qt::Quick3DAssetImport
@@ -189,10 +199,6 @@ if(QATERIALHOTRELOAD_ENABLE_QUICK3D)
   )
 endif()
 
-set_target_properties(${QATERIALHOTRELOAD_LIB} PROPERTIES
-  FOLDER ${QATERIALHOTRELOAD_FOLDER_PREFIX}
-  AUTORCC TRUE
-  AUTOMOC TRUE)
 target_include_directories(${QATERIALHOTRELOAD_LIB} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_compile_definitions(${QATERIALHOTRELOAD_LIB}
   PRIVATE -DQATERIALHOTRELOAD_VERSION_MAJOR=${QATERIALHOTRELOAD_VERSION_MAJOR}
@@ -223,9 +229,9 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   )
 
   if(QATERIALHOTRELOAD_BUILD_SHARED)
-    add_library(${QATERIALHOTRELOAD_APP} SHARED ${QATERIALHOTRELOAD_APP_SRCS})
+    qt_add_library(${QATERIALHOTRELOAD_APP} SHARED ${QATERIALHOTRELOAD_APP_SRCS})
   else()
-    add_executable(${QATERIALHOTRELOAD_APP} ${QATERIALHOTRELOAD_APP_SRCS})
+    qt_add_executable(${QATERIALHOTRELOAD_APP} ${QATERIALHOTRELOAD_APP_SRCS})
   endif()
 
   target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE
@@ -233,11 +239,6 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
     Qaterial::HotReload
     Qt::Widgets
   )
-
-  if(QATERIALHOTRELOAD_ENABLE_SFPM)
-    target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE SortFilterProxyModel)
-    target_compile_definitions(${QATERIALHOTRELOAD_APP} PRIVATE -DQATERIALHOTRELOAD_ENABLE_SFPM)
-  endif()
 
   if(QATERIALHOTRELOAD_ENABLE_PCH AND COMMAND target_precompile_headers)
     target_precompile_headers(${QATERIALHOTRELOAD_APP} PRIVATE ${PROJECT_SOURCE_DIR}/src/Qaterial/HotReload/Pch/Pch.hpp)

@@ -23,13 +23,13 @@
 ## CMake Platforms scripts
 
 set(QTSTATICCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtStaticCMake.git" CACHE STRING "QtStaticCMake repository, can be a local URL")
-set(QTSTATICCMAKE_TAG "master" CACHE STRING "QtStaticCMake git tag")
+set(QTSTATICCMAKE_TAG "v1.1.0" CACHE STRING "QtStaticCMake git tag")
 
 set(QTLINUXCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtLinuxCMake.git" CACHE STRING "QtLinuxCMake repository, can be a local URL")
-set(QTLINUXCMAKE_TAG "b9f2108feb0523c844fd5ecd19f4e240d786a48b" CACHE STRING "QtLinuxCMake git tag")
+set(QTLINUXCMAKE_TAG "v1.2.2" CACHE STRING "QtLinuxCMake git tag")
 
 set(QTWINDOWSCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtWindowsCMake" CACHE STRING "Repository of QtWindowsCMake")
-set(QTWINDOWSCMAKE_TAG "8f324287de9e568eec905091750533d0dbec7cbc" CACHE STRING "Git Tag of QtWindowsCMake")
+set(QTWINDOWSCMAKE_TAG "v1.4.3" CACHE STRING "Git Tag of QtWindowsCMake")
 
 set(QBC_REPOSITORY "https://github.com/OlivierLdff/QBCInstaller.git" CACHE STRING "QBC repository, can be a local URL")
 set(QBC_TAG "965118e5570da9bcc53662abc8c0525f04751c89" CACHE STRING "QBC git tag")
@@ -39,16 +39,10 @@ set(QTMACCMAKE_TAG "a398dd9c529aeda674fd63af747d84e0752732fd" CACHE STRING "QtMa
 
 ## CMake Resources scripts
 
-set(QTGENERATORCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtGeneratorCMake.git" CACHE STRING "QtGeneratorCMake repository, can be a local URL")
-set(QTGENERATORCMAKE_TAG "master" CACHE STRING "QtGeneratorCMake git tag")
-
 set(GOOGLEFONTS_REPOSITORY "https://github.com/OlivierLDff/fonts" CACHE STRING "Google fonts repository, can be a local URL")
 set(GOOGLEFONTS_TAG "master" CACHE STRING "Google fonts git tag")
 
 ## Qml Libraries
 
-set(SFPM_REPOSITORY "https://github.com/OlivierLDff/SortFilterProxyModel.git" CACHE STRING "SortFilterProxyModel repository url")
-set(SFPM_TAG "2efec2ca6df043af03d5c01bd4b1cd318f05921f" CACHE STRING "SortFilterProxyModel git tag")
-
 set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
-set(QATERIAL_TAG "v1.4.6" CACHE STRING "Qaterial git tag")
+set(QATERIAL_TAG "qt6" CACHE STRING "Qaterial git tag")

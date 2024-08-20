@@ -10,43 +10,40 @@
 # DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE
 # OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-message(STATUS "Generate Qaterial.HotReload qmldir")
-qt_generate_qmldir(QATERIALHOTRELOAD_QMLDIR_FILE
- SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}
- MODULE "Qaterial.HotReload"
-)
-
-message(STATUS "Generate Qaterial.HotReload.Images.qml")
-qt_generate_qrc_alias_qt_object(QATERIALHOTRELOAD_IMAGES_QML
-  SINGLETON
-  SOURCE_DIR  ${CMAKE_CURRENT_SOURCE_DIR}/Images
-  NAME "${CMAKE_CURRENT_SOURCE_DIR}/Images.qml"
-  PREFIX "Qaterial/HotReload/Images"
-  GLOB_EXPRESSION "*png;*.svg"
-  ALWAYS_OVERWRITE
-)
-
-message(STATUS "Generate QaterialHotReload.qrc")
-qt_generate_qrc(QATERIALHOTRELOAD_QML_QRC
-  SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}
-  DEST_DIR ${CMAKE_CURRENT_BINARY_DIR}/Generated
-  NAME QaterialHotReload.qrc
-  PREFIX "Qaterial/HotReload"
-  GLOB_EXPRESSION "*.qml;qmldir;*.png;*.svg"
-  ALWAYS_OVERWRITE
-  RECURSE
-)
-qtquick_compiler_add_resources(QATERIALHOTRELOAD_QML_RES ${QATERIALHOTRELOAD_QML_QRC})
-
-foreach(QATERIAL_CURRENT_QML_FILE ${QATERIALHOTRELOAD_QML_RES})
-  source_group("Qml\\QtQuickCompiler Files" FILES ${QATERIAL_CURRENT_QML_FILE})
-endforeach()
-
-
-add_library(${QATERIALHOTRELOAD_LIB}Ui STATIC ${QATERIALHOTRELOAD_QML_RES})
+qt_add_library(${QATERIALHOTRELOAD_LIB}Ui STATIC ${QATERIALHOTRELOAD_QML_RES})
 add_library(Qaterial::HotReload::Ui ALIAS ${QATERIALHOTRELOAD_LIB}Ui)
 
-set_target_properties(${QATERIALHOTRELOAD_LIB}Ui PROPERTIES AUTORCC TRUE)
+set(SINGLETON_FILES
+  Images.qml
+)
+
+set_source_files_properties(${SINGLETON_FILES} PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
+
+qt_add_qml_module(${QATERIAL_TARGET}Icons
+    URI "Qaterial.HotReload"
+    RESOURCE_PREFIX "/"
+    QML_FILES
+      HotReload.qml
+      HotReloadWindow.qml
+      IconsMenu.qml
+      Images.qml
+      ImportPathMenu.qml
+      Main.qml
+      MaterialPaletteMenu.qml
+      SplashScreenApplication.qml
+      SplashScreenWindow.qml
+      StatusView.qml
+      TypoMenu.qml
+    RESOURCES
+      Images/code.svg
+      Images/icon.svg
+      Images/material-icons-light.svg
+      Images/material-palette.png
+      Images/qaterial-hotreload-black.png
+      Images/qaterial-hotreload-white.png
+    OUTPUT_TARGETS QATERIAL_HR_QML_TARGETS
+    NO_PLUGIN
+  )
 
 target_link_libraries(${QATERIALHOTRELOAD_LIB}Ui PRIVATE
   Qt::Core
