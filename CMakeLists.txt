@@ -34,7 +34,7 @@ include(cmake/Version.cmake)
 set(QATERIALHOTRELOAD_PROJECT "QaterialHotReload" CACHE STRING "Project Name")
 set(QATERIALHOTRELOAD_FOLDER_PREFIX "Qaterial/HotReload" CACHE STRING "Prefix folder for all Qaterial generated targets in generated project (only decorative)")
 set(QATERIALHOTRELOAD_VERBOSE ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "QaterialHotReload log configuration")
-set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
+set(QATERIALHOTRELOAD_BUILD_SHARED ${BUILD_SHARED_LIBS} CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
 # Might be useful to disable if you only want the HotReload Gui to integrate into your project
 set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "Build Qaterial HotReload application")
 set(QATERIALHOTRELOAD_IGNORE_ENV OFF CACHE BOOL "Ignore qt environment variables")
@@ -113,11 +113,21 @@ set(QATERIALHOTRELOAD_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/Qaterial/HotReload
 
 add_subdirectory(qml/Qaterial/HotReload)
 
-qt_add_library(${QATERIALHOTRELOAD_LIB} STATIC
+set(QATERIALHOTRELOAD_SRCS
   ${QATERIALHOTRELOAD_SRC_DIR}/HotReload.hpp
   ${QATERIALHOTRELOAD_SRC_DIR}/HotReload.cpp
   ${QATERIALHOTRELOAD_QML_RES}
 )
+
+if(QATERIALHOTRELOAD_BUILD_SHARED)
+  qt_add_library(${QATERIALHOTRELOAD_LIB} SHARED
+    ${QATERIALHOTRELOAD_SRCS}
+  )
+else()
+  qt_add_library(${QATERIALHOTRELOAD_LIB} STATIC
+    ${QATERIALHOTRELOAD_SRCS}
+  )
+endif()
 add_library(Qaterial::HotReload ALIAS ${QATERIALHOTRELOAD_LIB})
 
 target_link_libraries(${QATERIALHOTRELOAD_LIB} PUBLIC
