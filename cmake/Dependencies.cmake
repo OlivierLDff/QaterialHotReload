@@ -29,7 +29,7 @@ set(QTLINUXCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtLinuxCMake.git" CA
 set(QTLINUXCMAKE_TAG "v1.2.2" CACHE STRING "QtLinuxCMake git tag")
 
 set(QTWINDOWSCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtWindowsCMake" CACHE STRING "Repository of QtWindowsCMake")
-set(QTWINDOWSCMAKE_TAG "v1.4.3" CACHE STRING "Git Tag of QtWindowsCMake")
+set(QTWINDOWSCMAKE_TAG "v1.4.4" CACHE STRING "Git Tag of QtWindowsCMake")
 
 set(QBC_REPOSITORY "https://github.com/OlivierLdff/QBCInstaller.git" CACHE STRING "QBC repository, can be a local URL")
 set(QBC_TAG "965118e5570da9bcc53662abc8c0525f04751c89" CACHE STRING "QBC git tag")
