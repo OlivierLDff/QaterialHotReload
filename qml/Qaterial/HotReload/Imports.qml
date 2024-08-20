@@ -43,8 +43,4 @@ import QtQuick.VirtualKeyboard
 import QtQuick.VirtualKeyboard.Styles
 import QtQuick.VirtualKeyboard.Settings
 
-import QtWebChannel
-import QtWebSockets
-import QtWebEngine
-
 Item {}

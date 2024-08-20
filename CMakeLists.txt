@@ -182,6 +182,13 @@ if(QATERIALHOTRELOAD_ENABLE_WEBSOCKET)
   )
 endif()
 
+if(QATERIALHOTRELOAD_ENABLE_WEBENGINE)
+  find_package(Qt6 QUIET COMPONENTS WebEngine)
+  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
+    Qt::WebEngine
+  )
+endif()
+
 if(QATERIALHOTRELOAD_ENABLE_QT3D)
   find_package(Qt6 QUIET COMPONENTS
     3DCore
