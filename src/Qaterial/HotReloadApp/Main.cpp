@@ -95,6 +95,7 @@ int main(int argc, char* argv[])
     const QCommandLineOption resetCurrentFile(QStringList({"reset-current-file"}),
         QCoreApplication::translate("main", "Force reset of current file"));
     parser.addOption(resetCurrentFile);
+    parser.addHelpOption();
     parser.process(app);
 
     // ──── LOAD AND REGISTER QML ────
