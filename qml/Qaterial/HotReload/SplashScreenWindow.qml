@@ -1,8 +1,8 @@
 // Copyright Olivier Le Doeuff 2020 (C)
 
 import QtQuick 2.0
-import Qaterial  as Qaterial
-import Qaterial.HotReload  as HR
+import Qaterial as Qaterial
+import Qaterial.HotReload as HR
 
 Qaterial.SplashScreenWindow
 {

@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import Qt.labs.folderlistmodel
-import Qaterial  as Qaterial
+import Qaterial as Qaterial
 
 Qaterial.Menu
 {

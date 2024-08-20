@@ -1,7 +1,7 @@
 // Copyright Olivier Le Doeuff 2020 (C)
 
 import QtQuick 2.0
-import Qaterial  as Qaterial
+import Qaterial as Qaterial
 
 Qaterial.ApplicationWindow
 {
