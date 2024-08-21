@@ -216,6 +216,18 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
 
   include(platforms/Deploy.cmake)
 
+  if(NOT QATERIALHOTRELOAD_BUILD_SHARED)
+    install(TARGETS ${QATERIALHOTRELOAD_APP}
+      BUNDLE  DESTINATION .
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+    qt_generate_deploy_qml_app_script(
+      TARGET ${QATERIALHOTRELOAD_APP}
+      OUTPUT_SCRIPT deploy_script
+    )
+    install(SCRIPT ${deploy_script})
+  endif()
+
 endif()
 
 # ───── DUMP CONFIGURATION ─────

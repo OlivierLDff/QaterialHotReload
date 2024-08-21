@@ -13,8 +13,7 @@
             "cacheVariables": {
                 "CMAKE_EXPORT_COMPILE_COMMANDS": true,
                 "CPM_SOURCE_CACHE": "${sourceDir}/.cpm",
-                "QATERIALHOTRELOAD_USE_LOCAL_CPM_FILE": true,
-                "QATERIAL_ENABLE_UNITY_BUILD": false
+                "QATERIALHOTRELOAD_USE_LOCAL_CPM_FILE": true
             }
         },
         {
