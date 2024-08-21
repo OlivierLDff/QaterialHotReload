@@ -17,6 +17,13 @@
       inputs.flake-utils.follows = "flake-utils";
       inputs.nix-filter.follows = "nix-filter";
     };
+    qaterial = {
+      url = "github:olivierldff/qaterial/v1.5.0";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.nix-filter.follows = "nix-filter";
+      inputs.qolm.follows = "qolm";
+    };
   };
 
   outputs =
@@ -25,7 +32,8 @@
     , flake-utils
     , nix-filter
     , nix-gl-host
-    , qolm
+    , qaterial
+    , ...
     }:
     flake-utils.lib.eachDefaultSystem (system:
     let
@@ -33,7 +41,7 @@
         inherit system;
         overlays = [
           (_: _: {
-            inherit (qolm.packages.${system}) qolm;
+            inherit (qaterial.packages.${system}) qaterial;
           })
         ];
       };
@@ -53,7 +61,7 @@
       ];
 
       buildInputs = [
-        pkgs.qolm
+        pkgs.qaterial
       ] ++ (with pkgs.qt6; [
         qtbase
         qtsvg

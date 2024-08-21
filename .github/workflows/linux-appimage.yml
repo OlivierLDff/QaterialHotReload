@@ -27,7 +27,6 @@ jobs:
         docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:ubuntu20-qt6.6.2 \
           cmake \
           -DQATERIALHOTRELOAD_IGNORE_ENV=ON \
-          -DQATERIALHOTRELOAD_ENABLE_WEBENGINE=OFF \
           -B ./build/ -S .
     -
       name: 🔨 Build QaterialHotReloadApp

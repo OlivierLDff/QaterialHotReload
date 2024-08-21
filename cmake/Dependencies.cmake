@@ -42,4 +42,4 @@ set(GOOGLEFONTS_TAG "master" CACHE STRING "Google fonts git tag")
 ## Qml Libraries
 
 set(QATERIAL_REPOSITORY "https://github.com/OlivierLDff/Qaterial.git" CACHE STRING "Qaterial repository url")
-set(QATERIAL_TAG "qt6" CACHE STRING "Qaterial git tag")
+set(QATERIAL_TAG "v1.5.0" CACHE STRING "Qaterial git tag")
