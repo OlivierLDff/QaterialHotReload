@@ -35,6 +35,8 @@
 #    include <Windows.h>
 #endif
 
+#include <iostream>
+
 void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     qaterial::HotReload::log(type, context, msg);
@@ -61,6 +63,7 @@ void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QStrin
 #elif defined(Q_OS_ANDROID)
         android_default_message_handler(type, context, msg);
 #endif
+        std::cout << log.toStdString() << std::endl;
     }
 }
 
