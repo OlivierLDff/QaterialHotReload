@@ -94,6 +94,63 @@
       );
 
       CPM_USE_LOCAL_PACKAGES = "ON";
+      version = import ./nix/get-project-version.nix { file = ./cmake/Version.cmake; prefix = "QATERIALHOTRELOAD"; };
+
+      qaterialHotReloadApp = pkgs.stdenv.mkDerivation rec {
+        inherit version nativeBuildInputs buildInputs nativeCheckInputs;
+        inherit CPM_USE_LOCAL_PACKAGES;
+        propagatedBuildInputs = buildInputs;
+
+        pname = "qaterialhotreloadapp";
+        src = nix-filter {
+          root = ./.;
+          include = [
+            "cmake"
+            "src"
+            "platforms"
+            "qml"
+            ./CMakeLists.txt
+          ];
+        };
+
+        cmakeFlags = [
+          (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_ENABLE_APPIMAGE" false)
+          (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_USE_LOCAL_CPM_FILE" true)
+          (pkgs.lib.strings.cmakeBool "QATERIAL_ENABLE_UNITY_BUILD" false)
+        ];
+
+        cmakeConfigType = "Release";
+        enableParallelBuilding = true;
+        # Enable debug output folder to exists and be kept
+        separateDebugInfo = true;
+
+        out = [ "out" ];
+
+
+        buildPhase = ''
+          echo "Building qaterialhotreloadapp version ${version} in ${cmakeConfigType} mode"
+
+          cmake --build . --config ${cmakeConfigType} --target \
+            QaterialHotReloadApp \
+            --parallel $NIX_BUILD_CORES
+        '';
+
+        doCheck = pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform;
+
+        installPhase = ''
+          cmake --install . --config ${cmakeConfigType} --prefix $out
+        '';
+
+        doInstallCheck = doCheck;
+        installCheckPhase = pkgs.lib.optionalString doInstallCheck ''
+          echo "Run shell hook"
+          ${shellHook}
+
+          xvfb-run dbus-run-session \
+            --config-file=${pkgs.dbus}/share/dbus-1/session.conf \
+            ${out}/bin/QaterialHotReloadApp --help
+        '';
+      };
 
       packages = {
         default = null;
