@@ -4,15 +4,11 @@ on:
   push:
     branches:
       - master
-      - ci
-
-  release:
-    types:
-      - created
-
+    tags:
+      - v*
   pull_request:
-    branches:
-      - master
+    types: [opened, synchronize, labeled]
+  workflow_dispatch:
 
 jobs:
   BuildWindows:
@@ -20,28 +16,20 @@ jobs:
     strategy:
       matrix:
         os: [windows-latest]
-        qt-version: ['5.15.1']
+        qt-version: ['6.6.2']
         build-type: ['Release']
     steps:
       -
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           lfs: true
       -
-        name: Cache Qt
-        id: cache-qt-windows
-        uses: actions/cache@v2
-        with:
-          path: ${{ github.workspace }}/Qt-${{ runner.os }}-${{ matrix.qt-version }}
-          key: ${{ runner.os }}-QtCache-${{ matrix.qt-version }}-modules
-      -
         name: ⬆ Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v4
         with:
           version: ${{ matrix.qt-version }}
-          dir: ${{ github.workspace }}/Qt-${{ runner.os }}-${{ matrix.qt-version }}
-          cached: ${{ steps.cache-qt-windows.outputs.cache-hit }}
-          modules: 'qtcharts qtdatavis3d qtpurchasing qtvirtualkeyboard qtwebengine qtnetworkauth qtquick3d'
+          cache: true
+          modules: 'qtcharts qtdatavis3d qtvirtualkeyboard qtwebengine qtnetworkauth qtquick3d qt5compat qtshadertools qtwebchannel qt3d qtwebsockets qtwebview qtpositioning'
       -
         name: 🔧 Configure
         run: |

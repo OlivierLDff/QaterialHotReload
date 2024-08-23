@@ -8,3 +8,10 @@
 .DS_Store
 
 CMakeLists.txt.user
+
+# nix crap
+result*
+.direnv
+
+# CMake thingy
+.cpm

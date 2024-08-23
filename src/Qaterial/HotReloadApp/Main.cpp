@@ -35,6 +35,8 @@
 #    include <Windows.h>
 #endif
 
+#include <iostream>
+
 void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     qaterial::HotReload::log(type, context, msg);
@@ -61,6 +63,7 @@ void qtMsgOutput(QtMsgType type, const QMessageLogContext& context, const QStrin
 #elif defined(Q_OS_ANDROID)
         android_default_message_handler(type, context, msg);
 #endif
+        std::cout << log.toStdString() << std::endl;
     }
 }
 
@@ -95,6 +98,7 @@ int main(int argc, char* argv[])
     const QCommandLineOption resetCurrentFile(QStringList({"reset-current-file"}),
         QCoreApplication::translate("main", "Force reset of current file"));
     parser.addOption(resetCurrentFile);
+    parser.addHelpOption();
     parser.process(app);
 
     // ──── LOAD AND REGISTER QML ────
@@ -113,10 +117,6 @@ int main(int argc, char* argv[])
         qaterial::HotReload::resetImportPath();
     if(parser.isSet(resetCurrentFile))
         qaterial::HotReload::resetCurrentFile();
-
-#ifdef QATERIALHOTRELOAD_ENABLE_SFPM
-    qqsfpm::registerQmlTypes();
-#endif
 
     // ──── LOAD QML MAIN ────
 

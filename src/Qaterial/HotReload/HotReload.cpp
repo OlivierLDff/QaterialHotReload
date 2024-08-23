@@ -23,8 +23,6 @@
 #include <Qaterial/HotReload/HotReload.hpp>
 #include <unordered_set>
 
-static void HotReload_loadResources() { Q_INIT_RESOURCE(QaterialHotReload); }
-
 namespace qaterial {
 
 bool HotReload::_resetImportPath = false;
@@ -34,7 +32,6 @@ static std::unordered_set<HotReload*> hotReloaders;
 HotReload::HotReload(QQmlEngine* engine, QObject* parent) : QObject(parent), _engine(engine)
 {
     connect(&_watcher, &QFileSystemWatcher::fileChanged, this, &HotReload::watchedFileChanged);
-    HotReload_loadResources();
     hotReloaders.insert(this);
 }
 

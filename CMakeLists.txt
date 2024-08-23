@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-cmake_minimum_required(VERSION 3.14.0 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.25.0 FATAL_ERROR)
 
 # ───── PROJECT OPTIONS ─────
 
@@ -33,16 +33,13 @@ include(cmake/Version.cmake)
 
 set(QATERIALHOTRELOAD_PROJECT "QaterialHotReload" CACHE STRING "Project Name")
 set(QATERIALHOTRELOAD_FOLDER_PREFIX "Qaterial/HotReload" CACHE STRING "Prefix folder for all Qaterial generated targets in generated project (only decorative)")
-set(QATERIALHOTRELOAD_VERBOSE OFF CACHE BOOL "QaterialHotReload log configuration")
-set(QATERIALHOTRELOAD_BUILD_SHARED OFF CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
+set(QATERIALHOTRELOAD_VERBOSE ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "QaterialHotReload log configuration")
+set(QATERIALHOTRELOAD_BUILD_SHARED ${BUILD_SHARED_LIBS} CACHE BOOL "Build QaterialHotReloadApp as a shared library (for android)")
 # Might be useful to disable if you only want the HotReload Gui to integrate into your project
 set(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP ${QATERIALHOTRELOAD_MAIN_PROJECT} CACHE BOOL "Build Qaterial HotReload application")
 set(QATERIALHOTRELOAD_IGNORE_ENV OFF CACHE BOOL "Ignore qt environment variables")
-set(QATERIALHOTRELOAD_ENABLE_PCH ON CACHE BOOL
- "Enable precompile headers support for 'QaterialHotReload'. \"
- Only work if CMake support 'target_precompile_headers'. \"
- This can speed up compilation time.")
 
+set(QATERIALHOTRELOAD_ENABLE_APPIMAGE ON CACHE BOOL "Enable AppImage building")
 set(QATERIALHOTRELOAD_ENABLE_CHARTS ON CACHE BOOL "Enable Qt::Charts")
 set(QATERIALHOTRELOAD_ENABLE_DATAVIZ ON CACHE BOOL "Enable Qt::DataVisualization")
 set(QATERIALHOTRELOAD_ENABLE_VIRTUALKEYBOARD ON CACHE BOOL "Enable Qt::VirtualKeyboard")
@@ -51,7 +48,6 @@ set(QATERIALHOTRELOAD_ENABLE_WEBSOCKET ON CACHE BOOL "Enable Qt::WebSockets")
 set(QATERIALHOTRELOAD_ENABLE_WEBENGINE ON CACHE BOOL "Enable Qt::WebEngine")
 set(QATERIALHOTRELOAD_ENABLE_QT3D ON CACHE BOOL "Enable Qt::3DCore")
 set(QATERIALHOTRELOAD_ENABLE_QUICK3D ON CACHE BOOL "Enable Qt::Quick3D")
-set(QATERIALHOTRELOAD_ENABLE_SFPM ${QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP} CACHE BOOL "Enable SortFilterProxyModel")
 
 if(QATERIALHOTRELOAD_VERBOSE)
 
@@ -64,12 +60,6 @@ if(QATERIALHOTRELOAD_VERBOSE)
   message(STATUS "QATERIALHOTRELOAD_IGNORE_ENV             : ${QATERIALHOTRELOAD_IGNORE_ENV}")
   message(STATUS "QATERIALHOTRELOAD_FOLDER_PREFIX          : ${QATERIALHOTRELOAD_FOLDER_PREFIX}")
 
-  message(STATUS "QATERIALHOTRELOAD_ENABLE_CHARTS          : ${QATERIALHOTRELOAD_ENABLE_CHARTS}")
-  message(STATUS "QATERIALHOTRELOAD_ENABLE_DATAVIZ         : ${QATERIALHOTRELOAD_ENABLE_DATAVIZ}")
-  message(STATUS "QATERIALHOTRELOAD_ENABLE_VIRTUALKEYBOARD : ${QATERIALHOTRELOAD_ENABLE_VIRTUALKEYBOARD}")
-  message(STATUS "QATERIALHOTRELOAD_ENABLE_WEBCHANNEL      : ${QATERIALHOTRELOAD_ENABLE_WEBCHANNEL}")
-  message(STATUS "QATERIALHOTRELOAD_ENABLE_WEBSOCKET       : ${QATERIALHOTRELOAD_ENABLE_WEBSOCKET}")
-  message(STATUS "QATERIALHOTRELOAD_ENABLE_WEBENGINE       : ${QATERIALHOTRELOAD_ENABLE_WEBENGINE}")
   message(STATUS "QATERIALHOTRELOAD_ENABLE_QT3D            : ${QATERIALHOTRELOAD_ENABLE_QT3D}")
   message(STATUS "QATERIALHOTRELOAD_ENABLE_QUICK3D         : ${QATERIALHOTRELOAD_ENABLE_QUICK3D}")
 
@@ -85,7 +75,31 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # ───── FETCH DEPEDENCIES ─────
 
-include(cmake/FetchDependencies.cmake)
+if(QATERIALHOTRELOAD_MAIN_PROJECT)
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+endif()
+
+include(cmake/Dependencies.cmake)
+
+find_package(Qt6 REQUIRED COMPONENTS
+  Core
+  Gui
+  Qml
+  Quick
+  QuickControls2
+  Svg
+  Xml
+  Widgets
+  Core5Compat
+)
+
+if(QATERIALHOTRELOAD_MAIN_PROJECT)
+  message(STATUS "Setting up ${QATERIALHOTRELOAD_PROJECT} as main project")
+  qt_standard_project_setup()
+endif()
+
+include(cmake/FetchQaterial.cmake)
 
 # ───── HOTRELOAD LIBRARY ─────
 
@@ -94,11 +108,21 @@ set(QATERIALHOTRELOAD_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/Qaterial/HotReload
 
 add_subdirectory(qml/Qaterial/HotReload)
 
-add_library(${QATERIALHOTRELOAD_LIB} STATIC
+set(QATERIALHOTRELOAD_SRCS
   ${QATERIALHOTRELOAD_SRC_DIR}/HotReload.hpp
   ${QATERIALHOTRELOAD_SRC_DIR}/HotReload.cpp
   ${QATERIALHOTRELOAD_QML_RES}
 )
+
+if(QATERIALHOTRELOAD_BUILD_SHARED)
+  qt_add_library(${QATERIALHOTRELOAD_LIB} SHARED
+    ${QATERIALHOTRELOAD_SRCS}
+  )
+else()
+  qt_add_library(${QATERIALHOTRELOAD_LIB} STATIC
+    ${QATERIALHOTRELOAD_SRCS}
+  )
+endif()
 add_library(Qaterial::HotReload ALIAS ${QATERIALHOTRELOAD_LIB})
 
 target_link_libraries(${QATERIALHOTRELOAD_LIB} PUBLIC
@@ -118,50 +142,8 @@ function(target_link_quiet_libraries TARGET)
   endforeach(LIB)
 endfunction()
 
-if(QATERIALHOTRELOAD_ENABLE_CHARTS)
-  find_package(Qt5 QUIET COMPONENTS Charts)
-  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-    Qt::Charts
-  )
-endif()
-
-if(QATERIALHOTRELOAD_ENABLE_DATAVIZ)
-  find_package(Qt5 QUIET COMPONENTS DataVisualization)
-  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-    Qt::DataVisualization
-  )
-endif()
-
-if(QATERIALHOTRELOAD_ENABLE_VIRTUALKEYBOARD)
-  find_package(Qt5 QUIET COMPONENTS VirtualKeyboard)
-  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-    Qt::VirtualKeyboard
-  )
-endif()
-
-if(QATERIALHOTRELOAD_ENABLE_WEBCHANNEL)
-  find_package(Qt5 QUIET COMPONENTS WebChannel)
-  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-    Qt::WebChannel
-  )
-endif()
-
-if(QATERIALHOTRELOAD_ENABLE_WEBSOCKET)
-  find_package(Qt5 QUIET COMPONENTS WebSockets)
-  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-    Qt::WebSockets
-  )
-endif()
-
-#if(QATERIALHOTRELOAD_ENABLE_WEBENGINE)
-#  find_package(Qt5 QUIET COMPONENTS WebEngine)
-#  target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
-#    Qt::WebEngine
-#  )
-#endif()
-
 if(QATERIALHOTRELOAD_ENABLE_QT3D)
-  find_package(Qt5 QUIET COMPONENTS
+  find_package(Qt6 QUIET COMPONENTS
     3DCore
     3DRender
     3DInput
@@ -180,6 +162,14 @@ if(QATERIALHOTRELOAD_ENABLE_QT3D)
 endif()
 
 if(QATERIALHOTRELOAD_ENABLE_QUICK3D)
+  find_package(Qt6 QUIET COMPONENTS
+    Quick3D
+    Quick3DAssetImport
+    Quick3DRender
+    Quick3DRuntimeRender
+    Quick3DUtils
+  )
+
   target_link_quiet_libraries(${QATERIALHOTRELOAD_LIB}
     Qt::Quick3D
     Qt::Quick3DAssetImport
@@ -189,10 +179,6 @@ if(QATERIALHOTRELOAD_ENABLE_QUICK3D)
   )
 endif()
 
-set_target_properties(${QATERIALHOTRELOAD_LIB} PROPERTIES
-  FOLDER ${QATERIALHOTRELOAD_FOLDER_PREFIX}
-  AUTORCC TRUE
-  AUTOMOC TRUE)
 target_include_directories(${QATERIALHOTRELOAD_LIB} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_compile_definitions(${QATERIALHOTRELOAD_LIB}
   PRIVATE -DQATERIALHOTRELOAD_VERSION_MAJOR=${QATERIALHOTRELOAD_VERSION_MAJOR}
@@ -201,16 +187,6 @@ target_compile_definitions(${QATERIALHOTRELOAD_LIB}
   PRIVATE -DQATERIALHOTRELOAD_VERSION_TAG=${QATERIALHOTRELOAD_VERSION_TAG}
   PRIVATE -DQATERIALHOTRELOAD_VERSION_TAG_HEX=${QATERIALHOTRELOAD_VERSION_TAG_HEX}
 )
-
-if(QATERIALHOTRELOAD_ENABLE_PCH AND COMMAND target_precompile_headers)
-  target_precompile_headers(${QATERIALHOTRELOAD_LIB} PRIVATE ${PROJECT_SOURCE_DIR}/src/Qaterial/HotReload/Pch/Pch.hpp)
-endif()
-
-get_target_property(QT_TARGET_TYPE Qt::Core TYPE)
-if(${QT_TARGET_TYPE} STREQUAL "STATIC_LIBRARY")
-  qt_generate_qml_plugin_import(${QATERIALHOTRELOAD_LIB} QML_SRC ${CMAKE_CURRENT_SOURCE_DIR})
-  qt_generate_plugin_import(${QATERIALHOTRELOAD_LIB})
-endif()
 
 # ───── HOTRELOAD APPLICATION ─────
 
@@ -223,25 +199,16 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   )
 
   if(QATERIALHOTRELOAD_BUILD_SHARED)
-    add_library(${QATERIALHOTRELOAD_APP} SHARED ${QATERIALHOTRELOAD_APP_SRCS})
+    qt_add_library(${QATERIALHOTRELOAD_APP} SHARED ${QATERIALHOTRELOAD_APP_SRCS})
   else()
-    add_executable(${QATERIALHOTRELOAD_APP} ${QATERIALHOTRELOAD_APP_SRCS})
+    qt_add_executable(${QATERIALHOTRELOAD_APP} ${QATERIALHOTRELOAD_APP_SRCS})
   endif()
 
-  target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE
-    Qaterial::Qaterial
-    Qaterial::HotReload
-    Qt::Widgets
+  target_link_libraries(${QATERIALHOTRELOAD_APP}
+    PRIVATE Qaterial::Qaterial
+    PRIVATE Qaterial::HotReload
+    PRIVATE Qt::Widgets
   )
-
-  if(QATERIALHOTRELOAD_ENABLE_SFPM)
-    target_link_libraries(${QATERIALHOTRELOAD_APP} PRIVATE SortFilterProxyModel)
-    target_compile_definitions(${QATERIALHOTRELOAD_APP} PRIVATE -DQATERIALHOTRELOAD_ENABLE_SFPM)
-  endif()
-
-  if(QATERIALHOTRELOAD_ENABLE_PCH AND COMMAND target_precompile_headers)
-    target_precompile_headers(${QATERIALHOTRELOAD_APP} PRIVATE ${PROJECT_SOURCE_DIR}/src/Qaterial/HotReload/Pch/Pch.hpp)
-  endif()
 
   if(QATERIALHOTRELOAD_IGNORE_ENV)
     message(STATUS "The executable will discard every ")
@@ -249,6 +216,18 @@ if(QATERIALHOTRELOAD_ENABLE_HOTRELOAD_APP)
   endif()
 
   include(platforms/Deploy.cmake)
+
+  if(NOT QATERIALHOTRELOAD_BUILD_SHARED)
+    install(TARGETS ${QATERIALHOTRELOAD_APP}
+      BUNDLE  DESTINATION .
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    )
+    qt_generate_deploy_qml_app_script(
+      TARGET ${QATERIALHOTRELOAD_APP}
+      OUTPUT_SCRIPT deploy_script
+    )
+    install(SCRIPT ${deploy_script})
+  endif()
 
 endif()
 

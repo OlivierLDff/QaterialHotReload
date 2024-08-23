@@ -1,15 +1,14 @@
 // Copyright Olivier Le Doeuff 2020 (C)
 
-import QtQml 2.14
+import QtCore
+import QtQml
 
-import QtQuick 2.14
-import QtQuick.Layouts 1.14
-import QtQuick.Controls 2.14
+import QtQuick
+import QtQuick.Layouts
+import QtQuick.Controls
 
-import Qt.labs.settings 1.1 as QLab
-
-import Qaterial 1.0 as Qaterial
-import Qaterial.HotReload 1.0 as HR
+import Qaterial as Qaterial
+import Qaterial.HotReload as HR
 
 Qaterial.Page
 {
@@ -55,7 +54,7 @@ Qaterial.Page
     loadFileInLoader(root.currentFileUrl)
   }
 
-  QLab.Settings
+  Settings
   {
     id: settings
 
@@ -805,7 +804,7 @@ Qaterial.Page
 
   Component.onCompleted: function()
   {
-    console.log(`Load configuration from ${settings.fileName}`)
+    console.log(`Load configuration from ${settings.location}`)
     folderSplitView.restoreState(settings.folderSplitView)
     Qaterial.Style.theme = root.theme
 

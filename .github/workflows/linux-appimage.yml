@@ -4,16 +4,11 @@ on:
   push:
     branches:
       - master
-      - ci
-      - ci-linux
-
-  release:
-    types:
-      - created
-
+    tags:
+      - v*
   pull_request:
-    branches:
-      - master
+    types: [opened, synchronize, labeled]
+  workflow_dispatch:
 
 jobs:
   BuildAppImage:
@@ -29,19 +24,19 @@ jobs:
       name: 🔧 Configure
       run: |
         mkdir -p build
-        docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:qt5.15.1-gcc7 \
+        docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:ubuntu20-qt6.6.2 \
           cmake \
           -DQATERIALHOTRELOAD_IGNORE_ENV=ON \
           -B ./build/ -S .
     -
       name: 🔨 Build QaterialHotReloadApp
       run: |
-        docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:qt5.15.1-gcc7 \
+        docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:ubuntu20-qt6.6.2 \
           cmake --build build --target "QaterialHotReloadApp" --config "Release" -j $(nproc)
     -
       name: 🚀 Deploy QaterialHotReload AppImage
       run: |
-        docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:qt5.15.1-gcc7 \
+        docker run --rm -v $(pwd):/src/ --device /dev/fuse --cap-add SYS_ADMIN --security-opt apparmor:unconfined reivilo1234/qt-linux-cmake:ubuntu20-qt6.6.2 \
           cmake --build build --target "QaterialHotReloadAppAppImage" --config "Release" -j $(nproc)
     -
       name: Get Name of Artifact
