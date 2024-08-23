@@ -116,7 +116,7 @@
         cmakeFlags = [
           (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_ENABLE_APPIMAGE" false)
           (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_USE_LOCAL_CPM_FILE" true)
-          (pkgs.lib.strings.cmakeBool "QATERIAL_ENABLE_UNITY_BUILD" false)
+          "-GNinja"
         ];
 
         cmakeConfigType = "Release";
@@ -125,7 +125,6 @@
         separateDebugInfo = true;
 
         out = [ "out" ];
-
 
         buildPhase = ''
           echo "Building qaterialhotreloadapp version ${version} in ${cmakeConfigType} mode"
@@ -138,7 +137,9 @@
         doCheck = pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform;
 
         installPhase = ''
-          cmake --install . --config ${cmakeConfigType} --prefix $out
+          echo "Installing qaterialhotreloadapp version ${version} in ${cmakeConfigType} mode into $out"
+          mkdir -p $out/bin
+          cp -r QaterialHotReloadApp $out/bin
         '';
 
         doInstallCheck = doCheck;
@@ -148,12 +149,29 @@
 
           xvfb-run dbus-run-session \
             --config-file=${pkgs.dbus}/share/dbus-1/session.conf \
-            ${out}/bin/QaterialHotReloadApp --help
+            $out/bin/QaterialHotReloadApp --help
+        '';
+      };
+
+      qaterialHotReloadAppGlHost = pkgs.stdenv.mkDerivation {
+        pname = "qaterialHotReloadAppGlHost";
+        inherit version;
+
+        dontUnpack = true;
+
+        installPhase = ''
+          mkdir -p $out/bin
+          cat > $out/bin/qaterialHotReloadAppGlHost <<EOF
+          #!${pkgs.bash}/bin/bash
+          exec ${nixglhost}/bin/nixglhost ${packages.qaterialHotReloadApp}/bin/QaterialHotReloadApp -- \$@
+          EOF
+          chmod +x $out/bin/qaterialHotReloadAppGlHost
         '';
       };
 
       packages = {
-        default = null;
+        inherit qaterialHotReloadApp qaterialHotReloadAppGlHost;
+        default = qaterialHotReloadApp;
         deadnix = pkgs.runCommand "deadnix" { } ''
           ${pkgs.deadnix}/bin/deadnix --fail ${./.}
           mkdir $out
@@ -161,7 +179,13 @@
       };
 
       apps = {
-        default = null;
+        qaterialHotReloadApp = flake-utils.lib.mkApp {
+          drv = packages.qaterialHotReloadApp;
+        };
+        qaterialHotReloadAppGlHost = flake-utils.lib.mkApp {
+          drv = packages.qaterialHotReloadAppGlHost;
+        };
+        default = apps.qaterialHotReloadApp;
       };
 
       minimalDevBuildInputs = with pkgs; [
