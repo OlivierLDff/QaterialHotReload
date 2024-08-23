@@ -804,7 +804,7 @@ Qaterial.Page
 
   Component.onCompleted: function()
   {
-    console.log(`Load configuration from ${settings.fileName}`)
+    console.log(`Load configuration from ${settings.location}`)
     folderSplitView.restoreState(settings.folderSplitView)
     Qaterial.Style.theme = root.theme
 
