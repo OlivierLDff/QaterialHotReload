@@ -127,29 +127,41 @@
         out = [ "out" ];
 
         buildPhase = ''
+          runHook preBuild
+
           echo "Building qaterialhotreloadapp version ${version} in ${cmakeConfigType} mode"
 
           cmake --build . --config ${cmakeConfigType} --target \
             QaterialHotReloadApp \
             --parallel $NIX_BUILD_CORES
+
+          runHook postBuild
         '';
 
         doCheck = pkgs.stdenv.hostPlatform == pkgs.stdenv.buildPlatform;
 
         installPhase = ''
+          runHook preInstall
+
           echo "Installing qaterialhotreloadapp version ${version} in ${cmakeConfigType} mode into $out"
           mkdir -p $out/bin
           cp -r QaterialHotReloadApp $out/bin
+
+          runHook postInstall
         '';
 
         doInstallCheck = doCheck;
         installCheckPhase = pkgs.lib.optionalString doInstallCheck ''
+          runHook preInstallCheck
+
           echo "Run shell hook"
           ${shellHook}
 
           xvfb-run dbus-run-session \
             --config-file=${pkgs.dbus}/share/dbus-1/session.conf \
             $out/bin/QaterialHotReloadApp --help
+
+          runHook postInstallCheck
         '';
       };
 
