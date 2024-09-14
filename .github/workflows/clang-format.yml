@@ -8,7 +8,7 @@ jobs:
     if: "!contains(github.event.head_commit.message, '🎨')"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - uses: DoozyX/clang-format-lint-action@v0.10
       name: "Run clang-format"
       with:
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: "Install js-beautify"
       run: sudo npm -g install js-beautify
     - name: "🎨 Run js-beautify"
