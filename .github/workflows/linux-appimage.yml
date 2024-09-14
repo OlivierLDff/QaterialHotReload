@@ -47,7 +47,7 @@ jobs:
         echo "ARTIFACT_PATHNAME=${ARTIFACT_PATHNAME}" >> $GITHUB_ENV
     -
       name: 📦 Upload QaterialHotReload AppImage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: QaterialHotReload.AppImage
         path: ${{ env.ARTIFACT_PATHNAME }}
