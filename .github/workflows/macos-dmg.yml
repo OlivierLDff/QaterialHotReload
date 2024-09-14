@@ -70,7 +70,7 @@ jobs:
       run: cmake --build build --target QaterialHotReloadAppDmg --config "${{ matrix.build-type }}"
     -
       name: 📦 Upload QaterialHotReload Dmg
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: QaterialHotReload-${{ matrix.min-osx-target }}.dmg
         path: build/${{ matrix.build-type }}/QaterialHotReloadApp.dmg
