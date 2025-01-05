@@ -107,16 +107,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1724234045,
-        "narHash": "sha256-awmleSNRnKZzOTuTrcyfO4Hg88dQBrpCph9CwVO9fKg=",
+        "lastModified": 1736013036,
+        "narHash": "sha256-CsnoEso/FMxcsm7N4FWO/w62bxcxzX1utC17r364VjY=",
         "owner": "olivierldff",
         "repo": "qaterial",
-        "rev": "7a7b2074d05af601ccd5a1b290fb5407c5a102d1",
+        "rev": "de1dbf39cfd1ec42724de2cad7eff572ab663bb4",
         "type": "github"
       },
       "original": {
         "owner": "olivierldff",
-        "ref": "v1.5.0",
+        "ref": "v1.5.2",
         "repo": "qaterial",
         "type": "github"
       }
@@ -134,16 +134,16 @@
         ]
       },
       "locked": {
-        "lastModified": 1724169406,
-        "narHash": "sha256-gwV/JQ+SqdTgZhJD4uGR2I2LL99NPTazKG+X2VOEVWk=",
+        "lastModified": 1736010556,
+        "narHash": "sha256-//oInuofX+Zrm0ZJ79nVmExK+tk35iYN8OrxDJoJY38=",
         "owner": "olivierldff",
         "repo": "qolm",
-        "rev": "cfbde7f855724d51106ef0913934974107c371c7",
+        "rev": "93def065c3ebc0cc190f717f6578bde0b8d8ee35",
         "type": "github"
       },
       "original": {
         "owner": "olivierldff",
-        "ref": "v3.2.2",
+        "ref": "v3.2.3",
         "repo": "qolm",
         "type": "github"
       }

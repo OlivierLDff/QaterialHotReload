@@ -32,7 +32,7 @@ set(QBC_REPOSITORY "https://github.com/OlivierLdff/QBCInstaller.git" CACHE STRIN
 set(QBC_TAG "965118e5570da9bcc53662abc8c0525f04751c89" CACHE STRING "QBC git tag")
 
 set(QTMACCMAKE_REPOSITORY "https://github.com/OlivierLDff/QtMacCMake.git" CACHE STRING "QtMacCMake repository, can be a local URL")
-set(QTMACCMAKE_TAG "a398dd9c529aeda674fd63af747d84e0752732fd" CACHE STRING "QtMacCMake git tag")
+set(QTMACCMAKE_TAG "v1.1.1" CACHE STRING "QtMacCMake git tag")
 
 ## CMake Resources scripts
 
