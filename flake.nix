@@ -168,40 +168,47 @@
         '';
       };
 
-      qaterialHotReloadAppGlHost = pkgs.mkIf pkgs.stdenv.isLinux pkgs.stdenv.mkDerivation {
-        pname = "qaterialHotReloadAppGlHost";
-        inherit version;
+      qaterialHotReloadAppGlHost =
+        if pkgs.stdenv.isLinux then
+          (pkgs.stdenv.mkDerivation {
+            pname = "qaterialHotReloadAppGlHost";
+            inherit version;
 
-        dontUnpack = true;
+            dontUnpack = true;
 
-        installPhase = ''
-          mkdir -p $out/bin
-          cat > $out/bin/qaterialHotReloadAppGlHost <<EOF
-          #!${pkgs.bash}/bin/bash
-          exec ${nixglhost}/bin/nixglhost ${packages.qaterialHotReloadApp}/bin/QaterialHotReloadApp -- \$@
-          EOF
-          chmod +x $out/bin/qaterialHotReloadAppGlHost
-        '';
-      };
+            installPhase = ''
+              mkdir -p $out/bin
+              cat > $out/bin/qaterialHotReloadAppGlHost <<EOF
+              #!${pkgs.bash}/bin/bash
+              exec ${nixglhost}/bin/nixglhost ${packages.qaterialHotReloadApp}/bin/QaterialHotReloadApp -- \$@
+              EOF
+              chmod +x $out/bin/qaterialHotReloadAppGlHost
+            '';
+          }) else null;
 
       packages = {
-        inherit qaterialHotReloadApp qaterialHotReloadAppGlHost;
+        inherit qaterialHotReloadApp;
         default = qaterialHotReloadApp;
         deadnix = pkgs.runCommand "deadnix" { } ''
           ${pkgs.deadnix}/bin/deadnix --fail ${./.}
           mkdir $out
         '';
-      };
+      } // (
+        if pkgs.stdenv.isLinux then { inherit qaterialHotReloadAppGlHost; } else { }
+      );
 
       apps = {
         qaterialHotReloadApp = flake-utils.lib.mkApp {
           drv = packages.qaterialHotReloadApp;
         };
-        qaterialHotReloadAppGlHost = flake-utils.lib.mkApp {
-          drv = packages.qaterialHotReloadAppGlHost;
-        };
         default = apps.qaterialHotReloadApp;
-      };
+      } // (
+        if pkgs.stdenv.isLinux then {
+          qaterialHotReloadAppGlHost = flake-utils.lib.mkApp {
+            drv = packages.qaterialHotReloadAppGlHost;
+          };
+        } else { }
+      );
 
       minimalDevBuildInputs = with pkgs; [
         gh
