@@ -12,13 +12,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     qolm = {
-      url = "github:olivierldff/qolm/v3.2.2";
+      url = "github:olivierldff/qolm/v3.2.3";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nix-filter.follows = "nix-filter";
     };
     qaterial = {
-      url = "github:olivierldff/qaterial/v1.5.0";
+      url = "github:olivierldff/qaterial/v1.5.2";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nix-filter.follows = "nix-filter";
@@ -47,7 +47,7 @@
       };
 
       qt = pkgs.qt6;
-      nixglhost = nix-gl-host.packages.${system}.default;
+      nixglhost = if pkgs.stdenv.isLinux then nix-gl-host.packages.${system}.default else null;
 
       nativeBuildInputs = with pkgs; [
         qt.wrapQtAppsHook
@@ -74,11 +74,6 @@
         qtshadertools
       ]);
 
-      nativeCheckInputs = with pkgs; [
-        dbus
-        xvfb-run
-      ];
-
       shellHook = ''
         # Crazy shell hook to set up Qt environment, from:
         # https://discourse.nixos.org/t/python-qt-woes/11808/12
@@ -96,8 +91,12 @@
       CPM_USE_LOCAL_PACKAGES = "ON";
       version = import ./nix/get-project-version.nix { file = ./cmake/Version.cmake; prefix = "QATERIALHOTRELOAD"; };
 
+      outFolder = if pkgs.stdenv.isLinux then "bin" else if pkgs.stdenv.isDarwin then "Applications" else throw "Unsupported system: ${pkgs.stdenv.system}";
+      outApp = if pkgs.stdenv.isLinux then "QaterialHotReloadApp" else if pkgs.stdenv.isDarwin then "QaterialHotReloadApp.app" else throw "Unsupported system: ${pkgs.stdenv.system}";
+      outAppExe = if pkgs.stdenv.isLinux then outApp else if pkgs.stdenv.isDarwin then "${outApp}/Contents/MacOS/QaterialHotReloadApp" else throw "Unsupported system: ${pkgs.stdenv.system}";
+
       qaterialHotReloadApp = pkgs.stdenv.mkDerivation rec {
-        inherit version nativeBuildInputs buildInputs nativeCheckInputs;
+        inherit version nativeBuildInputs buildInputs;
         inherit CPM_USE_LOCAL_PACKAGES;
         propagatedBuildInputs = buildInputs;
 
@@ -115,6 +114,7 @@
 
         cmakeFlags = [
           (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_ENABLE_APPIMAGE" false)
+          (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_ENABLE_DMG" false)
           (pkgs.lib.strings.cmakeBool "QATERIALHOTRELOAD_USE_LOCAL_CPM_FILE" true)
           "-GNinja"
         ];
@@ -144,8 +144,12 @@
           runHook preInstall
 
           echo "Installing qaterialhotreloadapp version ${version} in ${cmakeConfigType} mode into $out"
-          mkdir -p $out/bin
-          cp -r QaterialHotReloadApp $out/bin
+          mkdir -p $out/${outFolder}
+          cp -r ${outApp} $out/${outFolder}
+          ${pkgs.lib.optionalString pkgs.stdenv.isDarwin ''
+            mkdir -p $out/bin
+            ln -s $out/${outFolder}/${outAppExe} $out/bin/qaterialhotreloadapp
+          ''}
 
           runHook postInstall
         '';
@@ -157,15 +161,14 @@
           echo "Run shell hook"
           ${shellHook}
 
-          xvfb-run dbus-run-session \
-            --config-file=${pkgs.dbus}/share/dbus-1/session.conf \
-            $out/bin/QaterialHotReloadApp --help
+          export QT_QPA_PLATFORM=offscreen
+          $out/${outFolder}/${outAppExe} --help
 
           runHook postInstallCheck
         '';
       };
 
-      qaterialHotReloadAppGlHost = pkgs.stdenv.mkDerivation {
+      qaterialHotReloadAppGlHost = pkgs.mkIf pkgs.stdenv.isLinux pkgs.stdenv.mkDerivation {
         pname = "qaterialHotReloadAppGlHost";
         inherit version;
 
@@ -204,15 +207,12 @@
         gh
       ];
       fullDevBuildInputs = with pkgs; nativeBuildInputs
-        ++ nativeCheckInputs
         ++ minimalDevBuildInputs
         ++ [
         sccache
         nixpkgs-fmt
         cmake-format
         clang-tools
-        lazygit
-        neovim
         nixglhost
       ]
         ++ (with pkgs.qt6; [ qtlanguageserver ])
@@ -232,7 +232,6 @@
           inherit CPM_USE_LOCAL_PACKAGES;
 
           nativeBuildInputs = nativeBuildInputs
-            ++ nativeCheckInputs
             ++ minimalDevBuildInputs;
         };
 
