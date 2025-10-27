@@ -47,7 +47,7 @@ jobs:
         run: cmake --build build --target "QaterialHotReloadAppInstallerX64" --config "${{ matrix.build-type }}" -j
       -
         name: 📦 Upload QaterialHotReload Installer
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: QaterialHotReloadInstallerX64${{ matrix.build-type }}.exe
           path: build/QaterialHotReloadAppInstallerX64${{ matrix.build-type }}.exe
