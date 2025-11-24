@@ -22,7 +22,7 @@ jobs:
       with:
         use-flakehub: false
     -
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
     -
       name: 🔨 Build QaterialHotReloadApp
       run: |
